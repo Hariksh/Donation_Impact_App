@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const CampaignCard = ({ campaign, onPress }) => {
     const { image, title, raised, goal, donors, urgent } = campaign;
     const progressRatio = Math.min(raised / goal, 1);
     const progressPercent = progressRatio * 100;
+    const navigation = useNavigation();
 
     const animatedWidth = useRef(new Animated.Value(0)).current;
 
@@ -55,7 +57,11 @@ const CampaignCard = ({ campaign, onPress }) => {
 
                 <View style={styles.footer}>
                     <Text style={styles.donorsText}>{donors} Supporters</Text>
-                    <TouchableOpacity style={styles.donateButton} activeOpacity={0.8}>
+                    <TouchableOpacity
+                        style={styles.donateButton}
+                        activeOpacity={0.8}
+                        onPress={() => navigation.navigate('DonationScreen', { campaign })}
+                    >
                         <Text style={styles.donateButtonText}>Donate</Text>
                     </TouchableOpacity>
                 </View>

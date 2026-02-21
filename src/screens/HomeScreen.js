@@ -7,71 +7,86 @@ import {
     FlatList,
     SafeAreaView,
     Platform,
-    StatusBar
+    StatusBar,
+    ScrollView
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import CampaignCard from '../components/CampaignCard';
+import QuickDonation from '../components/QuickDonation';
 import { dummyCampaigns } from '../data/dummyData';
 
 const HomeScreen = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const navigation = useNavigation();
 
     const filteredCampaigns = dummyCampaigns.filter(campaign =>
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const renderHeader = () => (
-        <View style={styles.headerContainer}>
-            <View style={styles.greetingContainer}>
-                <Text style={styles.greetingText}>Welcome back,</Text>
-                <Text style={styles.userName}>Hariksh</Text>
-            </View>
-
-            <View style={styles.impactCard}>
-                <Text style={styles.impactTitle}>Your Total Impact</Text>
-                <Text style={styles.impactAmount}>₹12,500</Text>
-
-                <View style={styles.impactStatsRow}>
-                    <View style={styles.impactStat}>
-                        <Text style={styles.impactStatValue}>32</Text>
-                        <Text style={styles.impactStatLabel}>Families Supported</Text>
-                    </View>
-                    <View style={styles.impactStatDivider} />
-                    <View style={styles.impactStat}>
-                        <Text style={styles.impactStatValue}>4</Text>
-                        <Text style={styles.impactStatLabel}>Campaigns Contributed</Text>
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.searchContainer}>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Search campaigns..."
-                    placeholderTextColor="#999"
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                />
-            </View>
-
-            <View style={styles.sectionTitleContainer}>
-                <Text style={styles.sectionTitle}>Featured Campaigns</Text>
-            </View>
-        </View>
-    );
-
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar barStyle="dark-content" backgroundColor="#F4F4F4" />
-            <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+                <View style={styles.headerContainer}>
+                    <View style={styles.greetingContainer}>
+                        <Text style={styles.greetingText}>Welcome back,</Text>
+                        <Text style={styles.userName}>Hariksh</Text>
+                    </View>
+
+                    <View style={styles.impactCard}>
+                        <Text style={styles.impactTitle}>Your Total Impact</Text>
+                        <Text style={styles.impactAmount}>₹12,500</Text>
+
+                        <View style={styles.impactStatsRow}>
+                            <View style={styles.impactStat}>
+                                <Text style={styles.impactStatValue}>32</Text>
+                                <Text style={styles.impactStatLabel}>Families Supported</Text>
+                            </View>
+                            <View style={styles.impactStatDivider} />
+                            <View style={styles.impactStat}>
+                                <Text style={styles.impactStatValue}>4</Text>
+                                <Text style={styles.impactStatLabel}>Campaigns Contributed</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.searchContainer}>
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search campaigns..."
+                            placeholderTextColor="#999"
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                        />
+                    </View>
+                </View>
+                <View style={styles.sectionTitleContainer}>
+                    <Text style={styles.sectionTitle}>Featured Campaigns</Text>
+                </View>
+
                 <FlatList
                     data={filteredCampaigns}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <CampaignCard campaign={item} onPress={() => { }} />}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.listContent}
-                    ListHeaderComponent={renderHeader}
+                    renderItem={({ item }) => (
+                        <View style={styles.horizontalCardWrapper}>
+                            <CampaignCard
+                                campaign={item}
+                                onPress={() => navigation.navigate('CampaignDetailsScreen', { campaign: item })}
+                            />
+                        </View>
+                    )}
+                    contentContainerStyle={styles.horizontalListContent}
+                    decelerationRate="fast"
+                    snapToInterval={316}
+                    snapToAlignment="start"
                 />
-            </View>
+                <View style={styles.quickDonationWrapper}>
+                    <QuickDonation />
+                </View>
+
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -85,12 +100,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    listContent: {
-        paddingHorizontal: 20,
+    scrollContent: {
         paddingTop: 10,
         paddingBottom: 24,
     },
     headerContainer: {
+        paddingHorizontal: 20,
         marginBottom: 8,
     },
     greetingContainer: {
@@ -174,6 +189,7 @@ const styles = StyleSheet.create({
         color: '#333333',
     },
     sectionTitleContainer: {
+        paddingHorizontal: 20,
         marginBottom: 12,
     },
     sectionTitle: {
@@ -182,6 +198,17 @@ const styles = StyleSheet.create({
         color: '#222222',
         letterSpacing: 0.2,
     },
+    horizontalListContent: {
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+    },
+    horizontalCardWrapper: {
+        width: 300,
+        marginRight: 16,
+    },
+    quickDonationWrapper: {
+        paddingHorizontal: 20,
+        marginTop: 12,
+    },
 });
-
 export default HomeScreen;
