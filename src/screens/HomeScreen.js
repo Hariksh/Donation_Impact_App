@@ -13,6 +13,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import CampaignCard from '../components/CampaignCard';
 import QuickDonation from '../components/QuickDonation';
+import RecentImpact from '../components/RecentImpact';
 import { dummyCampaigns } from '../data/dummyData';
 
 const HomeScreen = () => {
@@ -84,6 +85,10 @@ const HomeScreen = () => {
                 />
                 <View style={styles.quickDonationWrapper}>
                     <QuickDonation />
+                </View>
+
+                <View style={styles.recentImpactWrapper}>
+                    <RecentImpact />
                 </View>
 
             </ScrollView>
@@ -209,6 +214,9 @@ const styles = StyleSheet.create({
     quickDonationWrapper: {
         paddingHorizontal: 20,
         marginTop: 12,
+    },
+    recentImpactWrapper: {
+        marginTop: 16,
     },
 });
 export default HomeScreen;
