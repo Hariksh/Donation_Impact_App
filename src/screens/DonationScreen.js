@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useDonation } from '../context/DonationContext';
 import DonationTypeSelector from '../components/donation/DonationTypeSelector';
 import AmountSelector from '../components/donation/AmountSelector';
 import PaymentSelector from '../components/donation/PaymentSelector';
@@ -15,6 +16,7 @@ const DonationScreen = () => {
     const navigation = useNavigation();
     const campaign = route.params?.campaign;
     const donationType = route.params?.donationType;
+    const { addDonation } = useDonation();
 
     const [selectedType, setSelectedType] = useState(donationType || '');
     const [selectedAmount, setSelectedAmount] = useState(null);
@@ -51,10 +53,12 @@ const DonationScreen = () => {
         console.log('--- Donation Data ---');
         console.log(JSON.stringify(donationData, null, 2));
 
+        addDonation(donationData);
+
         Alert.alert(
             'Thank You! 🎉',
             `Your donation of ₹${amount.toLocaleString('en-IN')} has been recorded successfully.`,
-            [{ text: 'OK', onPress: () => navigation.goBack() }]
+            [{ text: 'View Impact', onPress: () => navigation.navigate('Impact') }]
         );
     };
 

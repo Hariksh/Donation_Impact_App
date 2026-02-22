@@ -14,11 +14,13 @@ import { useNavigation } from '@react-navigation/native';
 import CampaignCard from '../components/CampaignCard';
 import QuickDonation from '../components/QuickDonation';
 import RecentImpact from '../components/RecentImpact';
+import { useDonation } from '../context/DonationContext';
 import { dummyCampaigns } from '../data/dummyData';
 
 const HomeScreen = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigation = useNavigation();
+    const { totalDonated, familiesSupported, campaignsContributed } = useDonation();
 
     const filteredCampaigns = dummyCampaigns.filter(campaign =>
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -36,16 +38,16 @@ const HomeScreen = () => {
 
                     <View style={styles.impactCard}>
                         <Text style={styles.impactTitle}>Your Total Impact</Text>
-                        <Text style={styles.impactAmount}>₹12,500</Text>
+                        <Text style={styles.impactAmount}>₹{totalDonated.toLocaleString('en-IN')}</Text>
 
                         <View style={styles.impactStatsRow}>
                             <View style={styles.impactStat}>
-                                <Text style={styles.impactStatValue}>32</Text>
+                                <Text style={styles.impactStatValue}>{familiesSupported}</Text>
                                 <Text style={styles.impactStatLabel}>Families Supported</Text>
                             </View>
                             <View style={styles.impactStatDivider} />
                             <View style={styles.impactStat}>
-                                <Text style={styles.impactStatValue}>4</Text>
+                                <Text style={styles.impactStatValue}>{campaignsContributed}</Text>
                                 <Text style={styles.impactStatLabel}>Campaigns Contributed</Text>
                             </View>
                         </View>
