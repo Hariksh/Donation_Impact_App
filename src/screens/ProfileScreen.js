@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Platform, StatusBar, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDonation } from '../context/DonationContext';
 
-const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress }) => (
-    <TouchableOpacity style={styles.settingRow} onPress={onPress} activeOpacity={isToggle ? 1 : 0.6}>
+const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress, isLast }) => (
+    <TouchableOpacity style={[styles.settingRow, isLast && { borderBottomWidth: 0 }]} onPress={onPress} activeOpacity={isToggle ? 1 : 0.6}>
         <View style={styles.settingLeft}>
             <View style={styles.settingIconCircle}>
                 <Ionicons name={icon} size={18} color="#0D6855" />
@@ -30,19 +30,24 @@ const ProfileScreen = () => {
     const [darkModeOn, setDarkModeOn] = useState(false);
 
     const handleLogout = () => {
-        console.log('Logged out');
+        Alert.alert('Logged Out', 'You have been logged out successfully.', [{ text: 'OK' }]);
     };
 
+    const bg = darkModeOn ? '#121212' : '#F4F4F4';
+    const cardBg = darkModeOn ? '#1E1E1E' : '#FFFFFF';
+    const textColor = darkModeOn ? '#E0E0E0' : '#222222';
+    const subTextColor = darkModeOn ? '#AAAAAA' : '#999999';
+
     return (
-        <SafeAreaView style={styles.safeArea}>
-            <StatusBar barStyle="dark-content" backgroundColor="#F4F4F4" />
+        <SafeAreaView style={[styles.safeArea, { backgroundColor: bg }]}>
+            <StatusBar barStyle={darkModeOn ? 'light-content' : 'dark-content'} backgroundColor={bg} />
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 <View style={styles.profileHeader}>
                     <View style={styles.avatarCircle}>
                         <Ionicons name="person" size={40} color="#0D6855" />
                     </View>
-                    <Text style={styles.userName}>Hariksh Suryawanshi</Text>
-                    <Text style={styles.userEmail}>hariksh.dev@gmail.com</Text>
+                    <Text style={[styles.userName, { color: textColor }]}>Hariksh Suryawanshi</Text>
+                    <Text style={[styles.userEmail, { color: subTextColor }]}>hariksh.dev@gmail.com</Text>
                     <Text style={styles.memberSince}>Member since 2024</Text>
                     <TouchableOpacity style={styles.editProfileBtn}>
                         <Ionicons name="create-outline" size={16} color="#0D6855" />
@@ -63,12 +68,12 @@ const ProfileScreen = () => {
                     <View style={styles.statDivider} />
                     <View style={styles.statItem}>
                         <Text style={styles.statValue}>{familiesSupported}</Text>
-                        <Text style={styles.statLabel}>Lives Impacted</Text>
+                        <Text style={styles.statLabel}>Families Supported</Text>
                     </View>
                 </View>
 
-                <Text style={styles.sectionTitle}>Settings</Text>
-                <View style={styles.settingsCard}>
+                <Text style={[styles.sectionTitle, { color: textColor }]}>Settings</Text>
+                <View style={[styles.settingsCard, { backgroundColor: cardBg }]}>
                     <SettingItem
                         icon="notifications-outline"
                         title="Notifications"
@@ -247,6 +252,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '700',
         color: '#FF4444',
+    },
+    versionText: {
+        textAlign: 'center',
+        fontSize: 11,
+        color: '#CCCCCC',
+        fontWeight: '500',
+        marginTop: 20,
     },
 });
 
