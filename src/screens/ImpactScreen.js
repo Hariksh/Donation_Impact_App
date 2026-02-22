@@ -1,13 +1,31 @@
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { useMemo } from 'react';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Platform, StatusBar, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDonation } from '../context/DonationContext';
 
+const IMPACT_TIMELINE = [
+    {
+        id: '1',
+        date: 'OCT 2023',
+        title: 'Handpump Installed in Bihar',
+        description: 'Your donation helped provide clean water to a village of 45 households.',
+    },
+    {
+        id: '2',
+        date: 'JUN 2023',
+        title: 'Food Kit Distribution',
+        description: '10 families in New Delhi received essential groceries for a month.',
+    },
+];
+
 const ImpactScreen = () => {
     const { totalDonated, familiesSupported, campaignsContributed, donationHistory } = useDonation();
+    const donorId = useMemo(() => `DNR-${Math.floor(1000 + Math.random() * 9000)}`, []);
 
     const formatDate = (isoDate) => {
+        if (!isoDate) return '';
         const d = new Date(isoDate);
-        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
     };
 
     const renderHistoryItem = ({ item }) => (
