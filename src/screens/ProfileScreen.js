@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Platform, StatusBar, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Platform, StatusBar, Alert, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDonation } from '../context/DonationContext';
 import { useUser } from '../context/UserContext';
-
+import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress, isLast }) => (
     <TouchableOpacity style={[styles.settingRow, isLast && { borderBottomWidth: 0 }]} onPress={onPress} activeOpacity={isToggle ? 1 : 0.6}>
         <View style={styles.settingLeft}>
@@ -55,6 +56,90 @@ const ProfileScreen = () => {
 
     const handleLogout = () => {
         Alert.alert('Logged Out', 'You have been logged out successfully.', [{ text: 'OK' }]);
+    };
+
+    const handleDownloadReceipt = async () => {
+        try {
+            const html = `
+                <html>
+                    <body style="font-family: Helvetica, Arial, sans-serif; padding: 40px; color: #333;">
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <h1 style="color: #0D6855; margin-bottom: 5px;">DONATION IMPACT CHARITY</h1>
+                            <p style="color: #666; margin-top: 0;">Official Tax Receipt</p>
+                        </div>
+                        <hr style="border: 0; border-top: 1px solid #E0E0E0; margin-bottom: 30px;" />
+                        
+                        <div style="margin-bottom: 30px;">
+                            <p style="margin: 8px 0;"><strong>Donor Name:</strong> ${userName}</p>
+                            <p style="margin: 8px 0;"><strong>Donor Email:</strong> ${userEmail}</p>
+                            <p style="margin: 8px 0;"><strong>Date Generated:</strong> ${new Date().toLocaleDateString('en-IN')}</p>
+                        </div>
+
+                        <div style="background-color: #F4F4F4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h3 style="margin-top: 0; color: #222;">Donation Summary</h3>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">Total Amount Donated</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;">₹${totalDonated.toLocaleString('en-IN')}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">Campaigns Supported</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;">${campaignsContributed}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">Families Supported</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;">${familiesSupported}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top: 50px; text-align: center; color: #666; font-size: 14px;">
+                            <p>Thank you for your generous support!</p>
+                            <p>Your contributions help make a real difference.</p>
+                        </div>
+                        
+                        <div style="margin-top: 40px; text-align: center; color: #999; font-size: 11px;">
+                            <p>This receipt is valid for income tax deduction purposes under applicable laws.</p>
+                            <p>This is a computer-generated document and requires no physical signature.</p>
+                        </div>
+                    </body>
+                </html>
+            `;
+
+            const { uri } = await Print.printToFileAsync({ html });
+
+            if (await Sharing.isAvailableAsync()) {
+                await Sharing.shareAsync(uri, {
+                    dialogTitle: 'Download Tax Receipt',
+                    mimeType: 'application/pdf',
+                    UTI: 'com.adobe.pdf'
+                });
+            } else {
+                Alert.alert('Success', 'Tax receipt downloaded!', [{ text: 'OK' }]);
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to generate tax receipt. Please try again.');
+            console.error('Error generating receipt:', error);
+        }
+    };
+
+    const handleHelpSupport = () => {
+        Alert.alert(
+            'Help & Support',
+            'If you need assistance, please contact us at support@donationimpact.org.',
+            [
+                { text: 'Email Support', onPress: () => Linking.openURL('mailto:support@donationimpact.org') },
+                { text: 'Cancel', style: 'cancel' }
+            ]
+        );
+    };
+
+    const handlePrivacyPolicy = () => {
+        Alert.alert(
+            'Privacy Policy',
+            'Your privacy is important to us. We securely store your data and never share it with third parties.',
+            [{ text: 'OK' }]
+        );
     };
 
     return (
@@ -134,17 +219,17 @@ const ProfileScreen = () => {
                     <SettingItem
                         icon="download-outline"
                         title="Download Tax Receipts"
-                        onPress={() => console.log('Download Tax Receipts')}
+                        onPress={handleDownloadReceipt}
                     />
                     <SettingItem
                         icon="help-circle-outline"
                         title="Help & Support"
-                        onPress={() => console.log('Help & Support')}
+                        onPress={handleHelpSupport}
                     />
                     <SettingItem
                         icon="shield-checkmark-outline"
                         title="Privacy Policy"
-                        onPress={() => console.log('Privacy Policy')}
+                        onPress={handlePrivacyPolicy}
                     />
                 </View>
 
