@@ -24,7 +24,7 @@ const HomeScreen = () => {
     const { userName } = useUser();
 
     const filteredCampaigns = campaigns.filter(campaign =>
-        campaign.title.toLowerCase().includes(searchQuery.toLowerCase())
+        campaign.featured && campaign.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
