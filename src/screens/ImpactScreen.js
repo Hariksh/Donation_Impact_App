@@ -98,6 +98,42 @@ const ImpactScreen = () => {
                     </View>
                 </View>
             </View>
+
+            <View style={styles.taxCard}>
+                <View style={styles.taxCardContent}>
+                    <Text style={styles.taxTitle}>Tax Savings (80G)</Text>
+                    <Text style={styles.taxSubtitle}>Download your FY 2023-24 tax-exempt certificate now.</Text>
+                    <TouchableOpacity style={styles.taxButton}>
+                        <Ionicons name="download-outline" size={16} color="#0D6855" />
+                        <Text style={styles.taxButtonText}>Download 80G Receipt</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <View style={styles.timelineSection}>
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>Impact Timeline</Text>
+                    <TouchableOpacity><Text style={styles.seeAllText}>See All</Text></TouchableOpacity>
+                </View>
+                {IMPACT_TIMELINE.map((item, index) => (
+                    <View key={item.id} style={styles.timelineItem}>
+                        <View style={styles.timelineDotColumn}>
+                            <View style={styles.timelineDot} />
+                            {index < IMPACT_TIMELINE.length - 1 && <View style={styles.timelineLine} />}
+                        </View>
+                        <View style={styles.timelineContent}>
+                            <Text style={styles.timelineDate}>{item.date}</Text>
+                            <Text style={styles.timelineTitle}>{item.title}</Text>
+                            <Text style={styles.timelineDesc}>{item.description}</Text>
+                        </View>
+                    </View>
+                ))}
+            </View>
+
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>Donation History</Text>
+                <TouchableOpacity><Text style={styles.seeAllText}>View Statement</Text></TouchableOpacity>
+            </View>
         </>
     );
     return (
@@ -135,59 +171,94 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 24,
     },
-    impactCard: {
-        backgroundColor: '#0D6855',
-        borderRadius: 20,
-        padding: 24,
-        marginBottom: 28,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.15,
-        shadowRadius: 14,
-        elevation: 8,
-    },
-    impactLabel: {
-        fontSize: 15,
-        color: 'rgba(255,255,255,0.85)',
-        fontWeight: '500',
-        marginBottom: 10,
-    },
-    impactAmount: {
-        fontSize: 38,
-        fontWeight: '900',
-        color: '#FFFFFF',
-        marginBottom: 28,
-        letterSpacing: 0.5,
-    },
-    statsRow: {
-        flexDirection: 'row',
+    profileSection: {
         alignItems: 'center',
-        justifyContent: 'space-between',
+        paddingVertical: 24,
     },
-    stat: { flex: 1 },
-    statValue: {
-        fontSize: 20,
-        fontWeight: '800',
+    avatarContainer: {
+        alignItems: 'center',
+        marginBottom: 14,
+    },
+    avatar: {
+        width: 72,
+        height: 72,
+        borderRadius: 20,
+        backgroundColor: '#FFF0E5',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    goldBadge: {
+        backgroundColor: '#0D6855',
+        paddingHorizontal: 14,
+        paddingVertical: 4,
+        borderRadius: 12,
+        marginTop: -10,
+    },
+    goldBadgeText: {
         color: '#FFFFFF',
-        marginBottom: 4,
+        fontSize: 10,
+        fontWeight: '800',
+        letterSpacing: 1,
     },
-    statLabel: {
-        fontSize: 13,
-        color: 'rgba(255,255,255,0.85)',
-        fontWeight: '500',
-    },
-    statDivider: {
-        width: 1,
-        height: 36,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        marginHorizontal: 20,
-    },
-    sectionTitle: {
+    profileName: {
         fontSize: 20,
         fontWeight: '800',
         color: '#222222',
+        marginBottom: 4,
+    },
+    profileMeta: {
+        fontSize: 13,
+        color: '#999999',
+        fontWeight: '500',
         marginBottom: 14,
-        letterSpacing: 0.2,
+    },
+    editProfileBtn: {
+        borderWidth: 1.5,
+        borderColor: '#0D6855',
+        borderRadius: 20,
+        paddingHorizontal: 24,
+        paddingVertical: 8,
+    },
+    editProfileText: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#0D6855',
+    },
+    totalImpactCard: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        padding: 20,
+        marginBottom: 12,
+        borderLeftWidth: 4,
+        borderLeftColor: '#0D6855',
+    },
+    totalImpactLabel: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#999999',
+        letterSpacing: 1,
+        marginBottom: 6,
+    },
+    totalImpactRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    totalImpactAmount: {
+        fontSize: 34,
+        fontWeight: '900',
+        color: '#222222',
+    },
+    growthBadge: {
+        backgroundColor: '#E6F9F1',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 10,
+        marginLeft: 12,
+    },
+    growthBadgeText: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#0D6855',
     },
 });
 
