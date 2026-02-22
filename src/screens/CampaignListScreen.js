@@ -2,15 +2,16 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CampaignCard from '../components/CampaignCard';
-import { dummyCampaigns } from '../data/dummyData';
+import { useDonation } from '../context/DonationContext';
 
 const CampaignListScreen = () => {
     const navigation = useNavigation();
+    const { campaigns } = useDonation();
 
     return (
         <View style={styles.container}>
             <FlatList
-                data={dummyCampaigns}
+                data={campaigns}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <CampaignCard

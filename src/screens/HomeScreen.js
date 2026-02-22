@@ -16,15 +16,14 @@ import QuickDonation from '../components/QuickDonation';
 import RecentImpact from '../components/RecentImpact';
 import { useDonation } from '../context/DonationContext';
 import { useUser } from '../context/UserContext';
-import { dummyCampaigns } from '../data/dummyData';
 
 const HomeScreen = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigation = useNavigation();
-    const { totalDonated, familiesSupported, campaignsContributed } = useDonation();
+    const { totalDonated, familiesSupported, campaignsContributed, campaigns } = useDonation();
     const { userName } = useUser();
 
-    const filteredCampaigns = dummyCampaigns.filter(campaign =>
+    const filteredCampaigns = campaigns.filter(campaign =>
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 

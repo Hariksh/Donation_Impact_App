@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from 'react';
+import { dummyCampaigns } from '../data/dummyData';
 
 const DonationContext = createContext();
 
@@ -10,6 +11,7 @@ export const DonationProvider = ({ children }) => {
     const [campaignsContributed, setCampaignsContributed] = useState(0);
     const [donationHistory, setDonationHistory] = useState([]);
     const [contributedCampaignIds, setContributedCampaignIds] = useState([]);
+    const [campaigns, setCampaigns] = useState(dummyCampaigns);
 
     const addDonation = (donationData) => {
         const { campaignId, donationType, amount, isRecurring, paymentMethod } = donationData;
@@ -22,6 +24,12 @@ export const DonationProvider = ({ children }) => {
             setCampaignsContributed((prev) => prev + 1);
         } else if (!campaignId) {
             setCampaignsContributed((prev) => prev + 1);
+        }
+
+        if (campaignId) {
+            setCampaigns((prev) => prev.map(c =>
+                c.id === campaignId ? { ...c, raised: (c.raised || 0) + amount } : c
+            ));
         }
 
         const entry = {
@@ -39,6 +47,7 @@ export const DonationProvider = ({ children }) => {
     return (
         <DonationContext.Provider
             value={{
+                campaigns,
                 totalDonated,
                 familiesSupported,
                 campaignsContributed,

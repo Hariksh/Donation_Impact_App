@@ -13,6 +13,7 @@ import {
     SafeAreaView,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { useDonation } from '../context/DonationContext';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const IMAGE_HEIGHT = 270;
@@ -20,7 +21,11 @@ const IMAGE_HEIGHT = 270;
 const CampaignDetailsScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
-    const campaign = route.params?.campaign;
+    const { campaigns } = useDonation();
+
+    const routeCampaign = route.params?.campaign;
+    const campaign = routeCampaign ? campaigns.find(c => c.id === routeCampaign.id) || routeCampaign : null;
+
     const animatedWidth = useRef(new Animated.Value(0)).current;
     const raisedAmount = campaign?.raisedAmount ?? campaign?.raised ?? 0;
     const goalAmount = campaign?.goalAmount ?? campaign?.goal ?? 1;
