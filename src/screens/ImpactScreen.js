@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Platform, StatusBar, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useDonation } from '../context/DonationContext';
 import { useUser } from '../context/UserContext';
 
@@ -22,6 +23,7 @@ const IMPACT_TIMELINE = [
 const ImpactScreen = () => {
     const { totalDonated, familiesSupported, campaignsContributed, donationHistory } = useDonation();
     const { userName } = useUser();
+    const navigation = useNavigation();
     const donorId = useMemo(() => `DNR-${Math.floor(1000 + Math.random() * 9000)}`, []);
 
     const formatDate = (isoDate) => {
@@ -55,19 +57,24 @@ const ImpactScreen = () => {
     const renderHeader = () => (
         <>
             <View style={styles.profileSection}>
-                <View style={styles.avatarContainer}>
-                    <View style={styles.avatar}>
-                        <Ionicons name="person" size={32} color="#FF8C42" />
+                <View style={styles.profileTopRow}>
+                    <View style={{ flex: 1 }} />
+                    <View style={styles.avatarContainer}>
+                        <View style={styles.avatar}>
+                            <Ionicons name="person" size={32} color="#FF8C42" />
+                        </View>
+                        <View style={styles.goldBadge}>
+                            <Text style={styles.goldBadgeText}>GOLD</Text>
+                        </View>
                     </View>
-                    <View style={styles.goldBadge}>
-                        <Text style={styles.goldBadgeText}>GOLD</Text>
+                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                            <Text style={styles.viewProfileLink}>View Profile →</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <Text style={styles.profileName}>Welcome Back, {userName.split(' ')[0]}!</Text>
                 <Text style={styles.profileMeta}>Member since 2024 • ID: {donorId}</Text>
-                <TouchableOpacity style={styles.editProfileBtn}>
-                    <Text style={styles.editProfileText}>Edit Profile</Text>
-                </TouchableOpacity>
             </View>
 
             <View style={styles.totalImpactCard}>
@@ -203,19 +210,19 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#999999',
         fontWeight: '500',
-        marginBottom: 14,
+        marginBottom: 4,
     },
-    editProfileBtn: {
-        borderWidth: 1.5,
-        borderColor: '#0D6855',
-        borderRadius: 20,
-        paddingHorizontal: 24,
-        paddingVertical: 8,
+    profileTopRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        width: '100%',
+        marginBottom: 10,
     },
-    editProfileText: {
+    viewProfileLink: {
         fontSize: 13,
-        fontWeight: '700',
+        fontWeight: '600',
         color: '#0D6855',
+        marginTop: 8,
     },
     totalImpactCard: {
         backgroundColor: '#FFFFFF',
