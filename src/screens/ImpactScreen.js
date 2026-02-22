@@ -29,27 +29,21 @@ const ImpactScreen = () => {
     };
 
     const renderHistoryItem = ({ item }) => (
-        <View style={styles.historyCard}>
-            <View style={styles.historyLeft}>
-                <View style={styles.historyIconCircle}>
-                    <Ionicons name="heart" size={18} color="#0D6855" />
-                </View>
-                <View style={styles.historyInfo}>
-                    <Text style={styles.historyTitle} numberOfLines={1}>{item.donationType}</Text>
-                    <Text style={styles.historyDate}>{formatDate(item.date)}</Text>
-                </View>
+        <View style={styles.donationCard}>
+            <View style={styles.donationIconCircle}>
+                <Ionicons name="heart" size={18} color="#0D6855" />
             </View>
-            <View style={styles.historyRight}>
-                <Text style={styles.historyAmount}>₹{item.amount.toLocaleString('en-IN')}</Text>
-                {item.isRecurring && (
-                    <View style={styles.recurringBadge}>
-                        <Text style={styles.recurringBadgeText}>Monthly</Text>
-                    </View>
-                )}
+            <View style={styles.donationInfo}>
+                <Text style={styles.donationTitle} numberOfLines={1}>{item.donationType || 'General Donation'}</Text>
+                <Text style={styles.donationMeta}>{formatDate(item.date)} • #{item.id.toString().slice(-4)}</Text>
+            </View>
+            <View style={styles.donationRight}>
+                <Text style={styles.donationAmount}>₹{item.amount.toLocaleString('en-IN')}{item.isRecurring ? ' / month' : ''}</Text>
+                <Ionicons name="download-outline" size={16} color="#0D6855" />
             </View>
         </View>
     );
-    const renderEmptyHistory = () => (
+    const renderEmptyDonations = () => (
         <View style={styles.emptyContainer}>
             <Ionicons name="wallet-outline" size={48} color="#CCCCCC" />
             <Text style={styles.emptyTitle}>No donations yet</Text>
@@ -58,36 +52,63 @@ const ImpactScreen = () => {
     );
     const renderHeader = () => (
         <>
-            <View style={styles.impactCard}>
-                <Text style={styles.impactLabel}>Your Total Impact</Text>
-                <Text style={styles.impactAmount}>₹{totalDonated.toLocaleString('en-IN')}</Text>
-                <View style={styles.statsRow}>
-                    <View style={styles.stat}>
-                        <Text style={styles.statValue}>{familiesSupported}</Text>
-                        <Text style={styles.statLabel}>Families Supported</Text>
+            <View style={styles.profileSection}>
+                <View style={styles.avatarContainer}>
+                    <View style={styles.avatar}>
+                        <Ionicons name="person" size={32} color="#FF8C42" />
                     </View>
-                    <View style={styles.statDivider} />
-                    <View style={styles.stat}>
-                        <Text style={styles.statValue}>{campaignsContributed}</Text>
-                        <Text style={styles.statLabel}>Campaigns Contributed</Text>
+                    <View style={styles.goldBadge}>
+                        <Text style={styles.goldBadgeText}>GOLD</Text>
+                    </View>
+                </View>
+                <Text style={styles.profileName}>Welcome Back, Donor!</Text>
+                <Text style={styles.profileMeta}>Member since 2024 • ID: {donorId}</Text>
+                <TouchableOpacity style={styles.editProfileBtn}>
+                    <Text style={styles.editProfileText}>Edit Profile</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.totalImpactCard}>
+                <Text style={styles.totalImpactLabel}>TOTAL IMPACT</Text>
+                <View style={styles.totalImpactRow}>
+                    <Text style={styles.totalImpactAmount}>₹{totalDonated.toLocaleString('en-IN')}</Text>
+                    {totalDonated > 5000 && (
+                        <View style={styles.growthBadge}>
+                            <Text style={styles.growthBadgeText}>Growing Impact</Text>
+                        </View>
+                    )}
+                </View>
+            </View>
+
+            <View style={styles.statsGrid}>
+                <View style={styles.statCard}>
+                    <Text style={styles.statCardLabel}>LIVES TOUCHED</Text>
+                    <Text style={styles.statCardValue}>{familiesSupported > 0 ? `${familiesSupported}+` : '0'}</Text>
+                    <View style={styles.statProgressTrack}>
+                        <View style={[styles.statProgressFill, { width: `${Math.min(familiesSupported * 5, 100)}%` }]} />
+                    </View>
+                </View>
+                <View style={styles.statCard}>
+                    <Text style={styles.statCardLabel}>CAMPAIGNS</Text>
+                    <Text style={styles.statCardValue}>{campaignsContributed}</Text>
+                    <View style={styles.categoryDots}>
+                        <View style={[styles.dot, { backgroundColor: '#FF6B6B' }]}><Text style={styles.dotText}>R</Text></View>
+                        <View style={[styles.dot, { backgroundColor: '#0D6855' }]}><Text style={styles.dotText}>E</Text></View>
+                        <View style={[styles.dot, { backgroundColor: '#4ECDC4' }]}><Text style={styles.dotText}>W</Text></View>
                     </View>
                 </View>
             </View>
-            <Text style={styles.sectionTitle}>Donation History</Text>
         </>
     );
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar barStyle="dark-content" backgroundColor="#F4F4F4" />
-            <View style={styles.headerBar}>
-                <Text style={styles.screenTitle}>Impact</Text>
-            </View>
             <FlatList
                 data={donationHistory}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={renderHistoryItem}
                 ListHeaderComponent={renderHeader}
-                ListEmptyComponent={renderEmptyHistory}
+                ListEmptyComponent={renderEmptyDonations}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.listContent}
             />
