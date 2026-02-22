@@ -12,6 +12,7 @@ import {
     Platform,
     SafeAreaView,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useDonation } from '../context/DonationContext';
 
@@ -128,6 +129,60 @@ const CampaignDetailsScreen = () => {
                             'All funds raised are transparently managed and directed towards on-ground relief efforts. ' +
                             'Donors will receive regular updates on how their contributions are being utilised.'}
                     </Text>
+
+                    <View style={styles.breakdownContainer}>
+                        <View style={styles.breakdownHeader}>
+                            <Ionicons name="bar-chart-outline" size={20} color="#0D6855" />
+                            <Text style={styles.breakdownTitle}>Where your money goes</Text>
+                        </View>
+
+                        <View style={styles.breakdownCard}>
+                            <View style={styles.breakdownItemRow}>
+                                <View style={styles.breakdownIconWrapper}>
+                                    <Ionicons name="restaurant-outline" size={18} color="#0D6855" />
+                                </View>
+                                <View style={styles.breakdownItemContent}>
+                                    <View style={styles.breakdownTextRow}>
+                                        <Text style={styles.breakdownItemLabel}>Food & Clean Water</Text>
+                                        <Text style={styles.breakdownItemPercent}>30%</Text>
+                                    </View>
+                                    <View style={styles.breakdownTrack}>
+                                        <View style={[styles.breakdownFill, { width: '30%' }]} />
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.breakdownItemRow}>
+                                <View style={styles.breakdownIconWrapper}>
+                                    <Ionicons name="medkit-outline" size={18} color="#0D6855" />
+                                </View>
+                                <View style={styles.breakdownItemContent}>
+                                    <View style={styles.breakdownTextRow}>
+                                        <Text style={styles.breakdownItemLabel}>Medical Supplies</Text>
+                                        <Text style={styles.breakdownItemPercent}>75%</Text>
+                                    </View>
+                                    <View style={styles.breakdownTrack}>
+                                        <View style={[styles.breakdownFill, { width: '75%' }]} />
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.breakdownItemRow}>
+                                <View style={styles.breakdownIconWrapper}>
+                                    <Ionicons name="home-outline" size={18} color="#0D6855" />
+                                </View>
+                                <View style={styles.breakdownItemContent}>
+                                    <View style={styles.breakdownTextRow}>
+                                        <Text style={styles.breakdownItemLabel}>Temporary Shelter</Text>
+                                        <Text style={styles.breakdownItemPercent}>45%</Text>
+                                    </View>
+                                    <View style={styles.breakdownTrack}>
+                                        <View style={[styles.breakdownFill, { width: '45%' }]} />
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
             <View style={styles.donateButtonContainer}>
@@ -253,6 +308,77 @@ const styles = StyleSheet.create({
         lineHeight: 23,
         color: '#555555',
         fontWeight: '400',
+    },
+    breakdownContainer: {
+        marginTop: 32,
+        marginBottom: 10,
+    },
+    breakdownHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 16,
+    },
+    breakdownTitle: {
+        fontSize: 18,
+        fontWeight: '800',
+        color: '#222222',
+    },
+    breakdownCard: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        padding: 20,
+        gap: 22,
+        borderWidth: 1,
+        borderColor: '#F0F0F0',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        elevation: 2,
+    },
+    breakdownItemRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 16,
+    },
+    breakdownIconWrapper: {
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: '#E6F9F1',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    breakdownItemContent: {
+        flex: 1,
+    },
+    breakdownTextRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 8,
+    },
+    breakdownItemLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#333333',
+    },
+    breakdownItemPercent: {
+        fontSize: 14,
+        fontWeight: '800',
+        color: '#222222',
+    },
+    breakdownTrack: {
+        height: 6,
+        backgroundColor: '#F4F4F4',
+        borderRadius: 3,
+        overflow: 'hidden',
+    },
+    breakdownFill: {
+        height: '100%',
+        backgroundColor: '#0D6855',
+        borderRadius: 3,
     },
     donateButtonContainer: {
         position: 'absolute',
