@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Platform, StatusBar, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Switch, Platform, StatusBar, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDonation } from '../context/DonationContext';
+import { useUser } from '../context/UserContext';
 
 const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress, isLast }) => (
     <TouchableOpacity style={[styles.settingRow, isLast && { borderBottomWidth: 0 }]} onPress={onPress} activeOpacity={isToggle ? 1 : 0.6}>
@@ -26,33 +27,82 @@ const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress, isLast }
 
 const ProfileScreen = () => {
     const { totalDonated, familiesSupported, campaignsContributed } = useDonation();
+    const { userName, setUserName, userEmail, setUserEmail } = useUser();
     const [notificationsOn, setNotificationsOn] = useState(true);
-    const [darkModeOn, setDarkModeOn] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempName, setTempName] = useState(userName);
+    const [tempEmail, setTempEmail] = useState(userEmail);
+
+    const handleEdit = () => {
+        setTempName(userName);
+        setTempEmail(userEmail);
+        setIsEditing(true);
+    };
+
+    const handleSave = () => {
+        if (!tempName.trim()) {
+            Alert.alert('Error', 'Name cannot be empty.');
+            return;
+        }
+        setUserName(tempName.trim());
+        setUserEmail(tempEmail.trim());
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+    };
 
     const handleLogout = () => {
         Alert.alert('Logged Out', 'You have been logged out successfully.', [{ text: 'OK' }]);
     };
 
-    const bg = darkModeOn ? '#121212' : '#F4F4F4';
-    const cardBg = darkModeOn ? '#1E1E1E' : '#FFFFFF';
-    const textColor = darkModeOn ? '#E0E0E0' : '#222222';
-    const subTextColor = darkModeOn ? '#AAAAAA' : '#999999';
-
     return (
-        <SafeAreaView style={[styles.safeArea, { backgroundColor: bg }]}>
-            <StatusBar barStyle={darkModeOn ? 'light-content' : 'dark-content'} backgroundColor={bg} />
+        <SafeAreaView style={styles.safeArea}>
+            <StatusBar barStyle="dark-content" backgroundColor="#F4F4F4" />
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 <View style={styles.profileHeader}>
                     <View style={styles.avatarCircle}>
                         <Ionicons name="person" size={40} color="#0D6855" />
                     </View>
-                    <Text style={[styles.userName, { color: textColor }]}>Hariksh Suryawanshi</Text>
-                    <Text style={[styles.userEmail, { color: subTextColor }]}>hariksh.dev@gmail.com</Text>
-                    <Text style={styles.memberSince}>Member since 2024</Text>
-                    <TouchableOpacity style={styles.editProfileBtn}>
-                        <Ionicons name="create-outline" size={16} color="#0D6855" />
-                        <Text style={styles.editProfileText}>Edit Profile</Text>
-                    </TouchableOpacity>
+                    {isEditing ? (
+                        <>
+                            <TextInput
+                                style={styles.editInput}
+                                value={tempName}
+                                onChangeText={setTempName}
+                                placeholder="Full Name"
+                                placeholderTextColor="#BBBBBB"
+                            />
+                            <TextInput
+                                style={styles.editInput}
+                                value={tempEmail}
+                                onChangeText={setTempEmail}
+                                placeholder="Email"
+                                placeholderTextColor="#BBBBBB"
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                            />
+                            <View style={styles.editActions}>
+                                <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
+                                    <Text style={styles.saveBtnText}>Save</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.cancelBtn} onPress={handleCancel}>
+                                    <Text style={styles.cancelBtnText}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </>
+                    ) : (
+                        <>
+                            <Text style={styles.userName}>{userName}</Text>
+                            <Text style={styles.userEmail}>{userEmail}</Text>
+                            <Text style={styles.memberSince}>Member since 2024</Text>
+                            <TouchableOpacity style={styles.editProfileBtn} onPress={handleEdit}>
+                                <Ionicons name="create-outline" size={16} color="#0D6855" />
+                                <Text style={styles.editProfileText}>Edit Profile</Text>
+                            </TouchableOpacity>
+                        </>
+                    )}
                 </View>
 
                 <View style={styles.statsCard}>
@@ -72,21 +122,14 @@ const ProfileScreen = () => {
                     </View>
                 </View>
 
-                <Text style={[styles.sectionTitle, { color: textColor }]}>Settings</Text>
-                <View style={[styles.settingsCard, { backgroundColor: cardBg }]}>
+                <Text style={styles.sectionTitle}>Settings</Text>
+                <View style={styles.settingsCard}>
                     <SettingItem
                         icon="notifications-outline"
                         title="Notifications"
                         isToggle
                         value={notificationsOn}
                         onToggle={setNotificationsOn}
-                    />
-                    <SettingItem
-                        icon="moon-outline"
-                        title="Dark Mode"
-                        isToggle
-                        value={darkModeOn}
-                        onToggle={setDarkModeOn}
                     />
                     <SettingItem
                         icon="download-outline"
@@ -259,6 +302,47 @@ const styles = StyleSheet.create({
         color: '#CCCCCC',
         fontWeight: '500',
         marginTop: 20,
+    },
+    editInput: {
+        width: '80%',
+        backgroundColor: '#FFFFFF',
+        borderWidth: 1.5,
+        borderColor: '#E0E0E0',
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        fontSize: 15,
+        color: '#222222',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    editActions: {
+        flexDirection: 'row',
+        gap: 10,
+        marginTop: 6,
+    },
+    saveBtn: {
+        backgroundColor: '#0D6855',
+        paddingHorizontal: 28,
+        paddingVertical: 10,
+        borderRadius: 20,
+    },
+    saveBtnText: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: '#FFFFFF',
+    },
+    cancelBtn: {
+        borderWidth: 1.5,
+        borderColor: '#CCCCCC',
+        paddingHorizontal: 22,
+        paddingVertical: 10,
+        borderRadius: 20,
+    },
+    cancelBtnText: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#999999',
     },
 });
 

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Platform, StatusBar, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDonation } from '../context/DonationContext';
+import { useUser } from '../context/UserContext';
 
 const IMPACT_TIMELINE = [
     {
@@ -20,6 +21,7 @@ const IMPACT_TIMELINE = [
 
 const ImpactScreen = () => {
     const { totalDonated, familiesSupported, campaignsContributed, donationHistory } = useDonation();
+    const { userName } = useUser();
     const donorId = useMemo(() => `DNR-${Math.floor(1000 + Math.random() * 9000)}`, []);
 
     const formatDate = (isoDate) => {
@@ -61,7 +63,7 @@ const ImpactScreen = () => {
                         <Text style={styles.goldBadgeText}>GOLD</Text>
                     </View>
                 </View>
-                <Text style={styles.profileName}>Welcome Back, Donor!</Text>
+                <Text style={styles.profileName}>Welcome Back, {userName.split(' ')[0]}!</Text>
                 <Text style={styles.profileMeta}>Member since 2024 • ID: {donorId}</Text>
                 <TouchableOpacity style={styles.editProfileBtn}>
                     <Text style={styles.editProfileText}>Edit Profile</Text>

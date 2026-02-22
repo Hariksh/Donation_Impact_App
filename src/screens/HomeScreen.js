@@ -15,12 +15,14 @@ import CampaignCard from '../components/CampaignCard';
 import QuickDonation from '../components/QuickDonation';
 import RecentImpact from '../components/RecentImpact';
 import { useDonation } from '../context/DonationContext';
+import { useUser } from '../context/UserContext';
 import { dummyCampaigns } from '../data/dummyData';
 
 const HomeScreen = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigation = useNavigation();
     const { totalDonated, familiesSupported, campaignsContributed } = useDonation();
+    const { userName } = useUser();
 
     const filteredCampaigns = dummyCampaigns.filter(campaign =>
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -33,7 +35,7 @@ const HomeScreen = () => {
                 <View style={styles.headerContainer}>
                     <View style={styles.greetingContainer}>
                         <Text style={styles.greetingText}>Welcome back,</Text>
-                        <Text style={styles.userName}>Hariksh</Text>
+                        <Text style={styles.userName}>{userName.split(' ')[0]}</Text>
                     </View>
 
                     <View style={styles.impactCard}>
