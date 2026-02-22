@@ -9,6 +9,7 @@ import CampaignDetailsScreen from '../screens/CampaignDetailsScreen';
 import DonationScreen from '../screens/DonationScreen';
 import ImpactScreen from '../screens/ImpactScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import StoryDetailScreen from '../screens/StoryDetailScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -28,6 +29,9 @@ const HomeStack = () => {
                 component={DonationScreen}
                 options={{ headerShown: true, title: 'Donate', headerBackTitleVisible: false }}
             />
+            <Stack.Screen
+                name="StoryDetailScreen"
+                component={StoryDetailScreen}/>
         </Stack.Navigator>
     );
 };
