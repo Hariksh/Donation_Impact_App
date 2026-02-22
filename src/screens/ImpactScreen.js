@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Platform, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Platform, StatusBar, TouchableOpacity, Alert } from 'react-native';
+import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDonation } from '../context/DonationContext';
@@ -32,10 +34,126 @@ const ImpactScreen = () => {
         return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
     };
 
+    const handleDownloadReceipt = async () => {
+        if (totalDonated === 0) {
+            Alert.alert('No Donations Found', 'Donate to generate a tax receipt.');
+            return;
+        }
+
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+                    <style>
+                        body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #333; }
+                        h1 { text-align: center; color: #0D6855; margin-bottom: 5px; }
+                        .subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 40px; }
+                        .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        .details-table th, .details-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+                        .details-table th { background-color: #f9f9f9; color: #555; width: 40%; }
+                        .footer { text-align: center; margin-top: 50px; font-size: 12px; color: #888; border-top: 1px solid #ddd; padding-top: 20px; }
+                        .ngo-name { font-weight: bold; font-size: 18px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Donation Receipt - 80G</h1>
+                    <div class="subtitle">Tax Exemption Certificate</div>
+                    
+                    <p>This acknowledges with thanks the receipt of donation towards <span class="ngo-name">Demo Foundation</span>.</p>
+                    
+                    <table class="details-table">
+                        <tr><th>Receipt Number</th><td>RCPT-${Date.now().toString().slice(-6)}</td></tr>
+                        <tr><th>Donor Name</th><td>${userName}</td></tr>
+                        <tr><th>Donor ID</th><td>${donorId}</td></tr>
+                        <tr><th>Total Donation Amount</th><td>₹${totalDonated.toLocaleString('en-IN')}</td></tr>
+                        <tr><th>Date of Issue</th><td>${new Date().toLocaleDateString('en-IN')}</td></tr>
+                        <tr><th>Section 80G Approval</th><td>Compliant under Sec 80G of Income Tax Act</td></tr>
+                    </table>
+
+                    <div class="footer">
+                        This is a system generated receipt.
+                    </div>
+                </body>
+            </html>
+        `;
+
+        try {
+            const { uri } = await Print.printToFileAsync({ html: htmlContent, base64: false });
+            const isSharingAvailable = await Sharing.isAvailableAsync();
+
+            if (isSharingAvailable) {
+                await Sharing.shareAsync(uri);
+            } else {
+                Alert.alert('Success', 'Receipt saved successfully.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Could not generate receipt at this time.');
+            console.error('Error generating PDF:', error);
+        }
+    };
+
+    const handleDownloadIndividualReceipt = async (item) => {
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+                    <style>
+                        body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #333; }
+                        h1 { text-align: center; color: #0D6855; margin-bottom: 5px; }
+                        .subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 40px; }
+                        .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        .details-table th, .details-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+                        .details-table th { background-color: #f9f9f9; color: #555; width: 40%; }
+                        .footer { text-align: center; margin-top: 50px; font-size: 12px; color: #888; border-top: 1px solid #ddd; padding-top: 20px; }
+                        .ngo-name { font-weight: bold; font-size: 18px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Donation Receipt - 80G</h1>
+                    <div class="subtitle">Tax Exemption Certificate</div>
+                    
+                    <p>This acknowledges with thanks the receipt of donation towards <span class="ngo-name">Demo Foundation</span>.</p>
+                    
+                    <table class="details-table">
+                        <tr><th>Receipt Number</th><td>RCPT-${item.id.toString().slice(-6)}</td></tr>
+                        <tr><th>Donor Name</th><td>${userName}</td></tr>
+                        <tr><th>Donor ID</th><td>${donorId}</td></tr>
+                        <tr><th>Donation Toward</th><td>${item.donationType || 'General Donation'}</td></tr>
+                        <tr><th>Donation Amount</th><td>₹${item.amount.toLocaleString('en-IN')}</td></tr>
+                        <tr><th>Date of Issue</th><td>${new Date(item.date).toLocaleDateString('en-IN')}</td></tr>
+                        <tr><th>Section 80G Approval</th><td>Compliant under Sec 80G of Income Tax Act</td></tr>
+                    </table>
+
+                    <div class="footer">
+                        This is a system generated single-donation receipt.
+                    </div>
+                </body>
+            </html>
+        `;
+
+        try {
+            const { uri } = await Print.printToFileAsync({ html: htmlContent, base64: false });
+            const isSharingAvailable = await Sharing.isAvailableAsync();
+
+            if (isSharingAvailable) {
+                await Sharing.shareAsync(uri);
+            } else {
+                Alert.alert('Success', 'Receipt saved successfully.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Could not generate receipt at this time.');
+            console.error('Error generating PDF:', error);
+        }
+    };
+
     const renderHistoryItem = ({ item }) => (
         <View style={styles.donationCard}>
             <View style={styles.donationIconCircle}>
-                <Ionicons name="heart" size={18} color="#0D6855" />
+                <Ionicons name="heart" size={24} color="#0D6855" />
             </View>
             <View style={styles.donationInfo}>
                 <Text style={styles.donationTitle} numberOfLines={1}>{item.donationType || 'General Donation'}</Text>
@@ -43,7 +161,9 @@ const ImpactScreen = () => {
             </View>
             <View style={styles.donationRight}>
                 <Text style={styles.donationAmount}>₹{item.amount.toLocaleString('en-IN')}{item.isRecurring ? ' / month' : ''}</Text>
-                <Ionicons name="download-outline" size={16} color="#0D6855" />
+                <TouchableOpacity onPress={() => handleDownloadIndividualReceipt(item)} style={{ padding: 4 }}>
+                    <Ionicons name="download-outline" size={18} color="#0D6855" />
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -112,7 +232,7 @@ const ImpactScreen = () => {
                 <View style={styles.taxCardContent}>
                     <Text style={styles.taxTitle}>Tax Savings (80G)</Text>
                     <Text style={styles.taxSubtitle}>Download your FY 2023-24 tax-exempt certificate now.</Text>
-                    <TouchableOpacity style={styles.taxButton}>
+                    <TouchableOpacity style={styles.taxButton} onPress={handleDownloadReceipt}>
                         <Ionicons name="download-outline" size={16} color="#0D6855" />
                         <Text style={styles.taxButtonText}>Download 80G Receipt</Text>
                     </TouchableOpacity>
@@ -416,13 +536,13 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     donationIconCircle: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 48,
+        height: 48,
+        borderRadius: 24,
         backgroundColor: '#F0F8F6',
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 12,
+        marginRight: 14,
     },
     donationInfo: {
         flex: 1,
