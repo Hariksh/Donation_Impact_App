@@ -10,11 +10,23 @@ import {
     StatusBar,
     Dimensions,
     TouchableOpacity,
+    Share,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
 const StoryDetailScreen = ({ route, navigation }) => {
     const { story } = route.params;
+
+    const handleShare = async () => {
+        try {
+            await Share.share({
+                title: story.title,
+                message: `${story.title}\n\n${story.description}\n\nRead more about this impact story on the Donation Impact App!`,
+            });
+        } catch (error) {
+            console.log('Error sharing:', error.message);
+        }
+    };
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -81,7 +93,7 @@ const StoryDetailScreen = ({ route, navigation }) => {
                             <Text style={styles.dateText}>{story.date}</Text>
                         </View>
                     )}
-                    <TouchableOpacity style={styles.shareButton}>
+                    <TouchableOpacity style={styles.shareButton} onPress={handleShare}>
                         <Ionicons name="share-outline" size={20} color="#FFFFFF" />
                         <Text style={styles.shareButtonText}>Share This Story</Text>
                     </TouchableOpacity>
