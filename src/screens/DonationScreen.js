@@ -123,13 +123,10 @@ const DonationScreen = () => {
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-
-                {!campaign && (
-                    <DonationTypeSelector
-                        selectedType={selectedType}
-                        setSelectedType={setSelectedType}
-                    />
-                )}
+                <DonationTypeSelector
+                    selectedType={selectedType}
+                    setSelectedType={setSelectedType}
+                />
 
                 <AmountSelector
                     selectedAmount={selectedAmount}

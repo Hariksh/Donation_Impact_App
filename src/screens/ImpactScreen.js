@@ -237,6 +237,7 @@ const ImpactScreen = () => {
                         <Text style={styles.taxButtonText}>Download 80G Receipt</Text>
                     </TouchableOpacity>
                 </View>
+                <Ionicons name="document-text" size={140} color="rgba(255, 255, 255, 0.1)" style={styles.taxCardIcon} />
             </View>
 
             <View style={styles.timelineSection}>
@@ -436,8 +437,17 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 22,
         marginBottom: 28,
+        overflow: 'hidden',
+        position: 'relative',
     },
-    taxCardContent: {},
+    taxCardContent: {
+        zIndex: 1,
+    },
+    taxCardIcon: {
+        position: 'absolute',
+        right: -45,
+        bottom: -25,
+    },
     taxTitle: {
         fontSize: 18,
         fontWeight: '800',

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform } from 'react-native';
 
-const PRESET_AMOUNTS = [500, 1000, 2000, 5000];
+const PRESET_AMOUNTS = [500, 1000, 2000, 5000, 10000, 25000];
 
 const AmountSelector = ({ selectedAmount, setSelectedAmount, customAmount, setCustomAmount }) => {
     const handleAmountPress = (amount) => {
@@ -12,9 +12,14 @@ const AmountSelector = ({ selectedAmount, setSelectedAmount, customAmount, setCu
         setCustomAmount(cleaned);
         setSelectedAmount(null);
     };
+    const formatAmountLabel = (amount) => {
+        if (amount >= 10000) return `₹${amount / 1000}k`;
+        return `₹${amount.toLocaleString('en-IN')}`;
+    };
+
     return (
         <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Select Amount</Text>
+            <Text style={styles.sectionTitle}>SELECT AMOUNT</Text>
             <View style={styles.amountsGrid}>
                 {PRESET_AMOUNTS.map((amount) => {
                     const isActive = selectedAmount === amount;
@@ -26,7 +31,7 @@ const AmountSelector = ({ selectedAmount, setSelectedAmount, customAmount, setCu
                             onPress={() => handleAmountPress(amount)}
                         >
                             <Text style={[styles.amountButtonText, isActive && styles.amountButtonTextActive]}>
-                                ₹{amount.toLocaleString('en-IN')}
+                                {formatAmountLabel(amount)}
                             </Text>
                         </TouchableOpacity>
                     );
@@ -52,10 +57,11 @@ const styles = StyleSheet.create({
         marginBottom: 24,
     },
     sectionTitle: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '700',
-        color: '#333333',
-        marginBottom: 14,
+        color: '#64748B',
+        letterSpacing: 1.2,
+        marginBottom: 16,
     },
     amountsGrid: {
         flexDirection: 'row',
@@ -64,55 +70,48 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     amountButton: {
-        width: '48%',
+        width: '31.5%',
         backgroundColor: '#FFFFFF',
-        paddingVertical: 16,
-        borderRadius: 14,
+        paddingVertical: 14,
+        borderRadius: 8,
         alignItems: 'center',
         marginBottom: 12,
         borderWidth: 1.5,
-        borderColor: '#E8E8E8',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.04,
-        shadowRadius: 6,
-        elevation: 2,
+        borderColor: '#E2E8F0',
     },
     amountButtonActive: {
-        backgroundColor: '#008A5E',
+        backgroundColor: '#ECFDF5',
         borderColor: '#008A5E',
-        shadowColor: '#008A5E',
-        shadowOpacity: 0.25,
     },
     amountButtonText: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: '#333333',
+        fontSize: 15,
+        fontWeight: '800',
+        color: '#0F172A',
     },
     amountButtonTextActive: {
-        color: '#FFFFFF',
+        color: '#008A5E',
     },
     customAmountContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        borderRadius: 14,
+        borderRadius: 12,
         borderWidth: 1.5,
-        borderColor: '#E8E8E8',
+        borderColor: '#E2E8F0',
         paddingHorizontal: 16,
-        paddingVertical: Platform.OS === 'ios' ? 16 : 4,
+        paddingVertical: Platform.OS === 'ios' ? 14 : 4,
     },
     currencyPrefix: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: '700',
-        color: '#008A5E',
+        color: '#94A3B8',
         marginRight: 8,
     },
     customAmountInput: {
         flex: 1,
-        fontSize: 16,
-        color: '#333333',
-        fontWeight: '600',
+        fontSize: 15,
+        color: '#0F172A',
+        fontWeight: '700',
     },
 });
 export default AmountSelector;

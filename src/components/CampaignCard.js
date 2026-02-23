@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
         color: '#222222',
         marginBottom: 12,
         lineHeight: 24,
+        minHeight: 48,
     },
     statsContainer: {
         flexDirection: 'row',

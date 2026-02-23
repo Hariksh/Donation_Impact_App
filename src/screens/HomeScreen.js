@@ -72,7 +72,10 @@ const HomeScreen = () => {
                 </View>
                 <View style={styles.sectionTitleContainer}>
                     <Text style={styles.sectionTitle}>Urgent Relief</Text>
-                    <TouchableOpacity activeOpacity={0.8}>
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => navigation.navigate('Campaigns')}
+                    >
                         <Text style={styles.viewAllText}>View All</Text>
                     </TouchableOpacity>
                 </View>

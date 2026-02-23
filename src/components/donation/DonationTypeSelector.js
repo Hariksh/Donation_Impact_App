@@ -1,39 +1,41 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 const DONATION_TYPES = [
-    { label: 'Emergency Relief', icon: 'medical' },
-    { label: 'Medical Support', icon: 'heart' },
-    { label: 'Education Fund', icon: 'book' },
-    { label: 'General Fund', icon: 'leaf' },
+    { label: 'Zakat', icon: 'cash' },
+    { label: 'Sadaqa', icon: 'hand-heart-outline' },
+    { label: 'Lillah', icon: 'heart-outline' },
 ];
 const DonationTypeSelector = ({ selectedType, setSelectedType }) => {
     return (
         <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Donation Type</Text>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.typeScrollContent}>
+            <View style={styles.headerRow}>
+                <Text style={styles.sectionTitle}>DONATION TYPE</Text>
+                <View style={styles.taxBadge}>
+                    <Text style={styles.taxBadgeText}>80G TAX BENEFIT</Text>
+                </View>
+            </View>
+            <View style={styles.cardsContainer}>
                 {DONATION_TYPES.map((type) => {
                     const isActive = selectedType === type.label;
                     return (
                         <TouchableOpacity
                             key={type.label}
-                            style={[styles.typeChip, isActive && styles.typeChipActive]}
+                            style={[styles.typeCard, isActive && styles.typeCardActive]}
                             activeOpacity={0.8}
                             onPress={() => setSelectedType(type.label)}>
-                            <Ionicons
+                            <MaterialCommunityIcons
                                 name={type.icon}
-                                size={16}
-                                color={isActive ? '#FFFFFF' : '#008A5E'}
-                                style={styles.typeChipIcon}/>
-                            <Text style={[styles.typeChipText, isActive && styles.typeChipTextActive]}>
+                                size={28}
+                                color={isActive ? '#008A5E' : '#94A3B8'}
+                                style={styles.typeCardIcon} />
+                            <Text style={[styles.typeCardText, isActive && styles.typeCardTextActive]}>
                                 {type.label}
                             </Text>
                         </TouchableOpacity>
                     );
                 })}
-            </ScrollView>
+            </View>
         </View>
     );
 };
@@ -41,39 +43,57 @@ const styles = StyleSheet.create({
     section: {
         marginBottom: 24,
     },
-    sectionTitle: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: '#333333',
-        marginBottom: 14,
-    },
-    typeScrollContent: {
-        gap: 10,
-    },
-    typeChip: {
+    headerRow: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 24,
-        borderWidth: 1.5,
-        borderColor: '#E0E0E0',
+        marginBottom: 16,
     },
-    typeChipActive: {
-        backgroundColor: '#008A5E',
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: '#64748B',
+        letterSpacing: 1.2,
+    },
+    taxBadge: {
+        backgroundColor: '#FEF3C7',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 12,
+    },
+    taxBadgeText: {
+        fontSize: 11,
+        fontWeight: '800',
+        color: '#B45309',
+    },
+    cardsContainer: {
+        flexDirection: 'row',
+        gap: 12,
+    },
+    typeCard: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+        paddingVertical: 18,
+        borderRadius: 12,
+        borderWidth: 1.5,
+        borderColor: '#E2E8F0',
+    },
+    typeCardActive: {
+        backgroundColor: '#ECFDF5',
         borderColor: '#008A5E',
     },
-    typeChipIcon: {
-        marginRight: 6,
+    typeCardIcon: {
+        marginBottom: 8,
     },
-    typeChipText: {
-        fontSize: 13,
-        fontWeight: '600',
-        color: '#444444',
+    typeCardText: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: '#0F172A',
     },
-    typeChipTextActive: {
-        color: '#FFFFFF',
+    typeCardTextActive: {
+        color: '#008A5E',
     },
 });
 export default DonationTypeSelector;
