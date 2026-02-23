@@ -26,11 +26,18 @@ const CampaignCard = ({ campaign, onPress }) => {
         >
             <View style={styles.imageContainer}>
                 <Image source={{ uri: image }} style={styles.image} />
-                {urgent && (
-                    <View style={styles.urgentBadge}>
-                        <Text style={styles.urgentText}>URGENT</Text>
-                    </View>
-                )}
+                <View style={styles.badgesContainer}>
+                    {urgent && (
+                        <View style={[styles.badge, styles.urgentBadge]}>
+                            <Text style={styles.badgeText}>URGENT</Text>
+                        </View>
+                    )}
+                    {campaign.category && (
+                        <View style={[styles.badge, styles.categoryBadge]}>
+                            <Text style={styles.badgeText}>{campaign.category}</Text>
+                        </View>
+                    )}
+                </View>
             </View>
 
             <View style={styles.content}>
@@ -92,11 +99,14 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'cover',
     },
-    urgentBadge: {
+    badgesContainer: {
         position: 'absolute',
         top: 12,
         left: 12,
-        backgroundColor: '#E74C3C',
+        flexDirection: 'row',
+        gap: 8,
+    },
+    badge: {
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 8,
@@ -106,11 +116,18 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
     },
-    urgentText: {
+    urgentBadge: {
+        backgroundColor: '#E74C3C',
+    },
+    categoryBadge: {
+        backgroundColor: '#3498DB',
+    },
+    badgeText: {
         color: '#FFFFFF',
         fontSize: 11,
         fontWeight: '800',
         letterSpacing: 0.5,
+        textTransform: 'uppercase',
     },
     content: {
         padding: 20,
@@ -130,7 +147,7 @@ const styles = StyleSheet.create({
     raisedText: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#0D6855', // slightly softened primary green
+        color: '#0D6855',
     },
     goalText: {
         fontSize: 13,

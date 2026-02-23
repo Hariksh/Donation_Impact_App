@@ -36,6 +36,7 @@ export const dummyCampaigns = [
         donors: 45,
         urgent: false,
         featured: true,
+        category: 'EDUCATION',
         description:
             'Thousands of children from low-income families are unable to attend school regularly due to a lack of basic educational materials — notebooks, textbooks, stationery, and school bags.\n\n' +
             'This campaign aims to assemble and distribute comprehensive education kits to 1,000 children across government schools in Bihar and Uttar Pradesh. Each kit includes notebooks, pens, a geometry set, a school bag, and age-appropriate reading material.\n\n' +
