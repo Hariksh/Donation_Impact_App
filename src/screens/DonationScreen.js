@@ -4,6 +4,7 @@ import {
     Switch, Alert, Platform, KeyboardAvoidingView,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useDonation } from '../context/DonationContext';
 import DonationTypeSelector from '../components/donation/DonationTypeSelector';
@@ -14,6 +15,7 @@ import DonationSummary from '../components/donation/DonationSummary';
 const DonationScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
     const campaign = route.params?.campaign;
     const donationType = route.params?.donationType;
     const { addDonation } = useDonation();
@@ -67,18 +69,60 @@ const DonationScreen = () => {
             style={styles.screen}
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
+            <View style={[styles.stickyHeader, { paddingTop: insets.top }]}>
+                <View style={styles.headerContainer}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                        <Ionicons name="arrow-back" size={24} color="#008A5E" />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle} numberOfLines={1}>
+                        {campaign ? campaign.title : 'Support Jamiat'}
+                    </Text>
+                    <View style={styles.secureBadge}>
+                        <Ionicons name="shield-checkmark-outline" size={14} color="#008A5E" />
+                        <Text style={styles.secureText}>SECURE</Text>
+                    </View>
+                </View>
+
+                {/* Progress Steps Component */}
+                <View style={styles.stepsContainer}>
+                    {/* Step 1 */}
+                    <View style={styles.stepWrapper}>
+                        <View style={[styles.stepCircle, styles.stepCircleActive]}>
+                            <Text style={[styles.stepNumber, styles.stepNumberActive]}>1</Text>
+                        </View>
+                        <Text style={[styles.stepLabel, styles.stepLabelActive]}>Amount</Text>
+                    </View>
+
+                    {/* Connecting Line 1 */}
+                    <View style={[styles.stepLine, styles.stepLineActive]} />
+
+                    {/* Step 2 */}
+                    <View style={styles.stepWrapper}>
+                        <View style={styles.stepCircle}>
+                            <Text style={styles.stepNumber}>2</Text>
+                        </View>
+                        <Text style={styles.stepLabel}>Payment</Text>
+                    </View>
+
+                    {/* Connecting Line 2 */}
+                    <View style={[styles.stepLine, styles.stepLineActive]} />
+
+                    {/* Step 3 */}
+                    <View style={styles.stepWrapper}>
+                        <View style={styles.stepCircle}>
+                            <Text style={styles.stepNumber}>3</Text>
+                        </View>
+                        <Text style={styles.stepLabel}>Impact</Text>
+                    </View>
+                </View>
+            </View>
+
             <ScrollView
                 style={{ flex: 1 }}
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <View style={styles.headerCard}>
-                    <Text style={styles.headerTitle} numberOfLines={2}>
-                        {campaign ? campaign.title : selectedType || 'Make a Donation'}
-                    </Text>
-                    <Text style={styles.headerSubtitle}>Make a secure contribution</Text>
-                </View>
 
                 {!campaign && (
                     <DonationTypeSelector
@@ -142,30 +186,102 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         padding: 20,
+        paddingTop: 24,
         paddingBottom: 100,
     },
-    headerCard: {
-        backgroundColor: '#008A5E',
-        borderRadius: 20,
-        padding: 24,
-        marginBottom: 24,
+    stickyHeader: {
+        backgroundColor: '#FFFFFF',
+        zIndex: 10,
+        elevation: 5,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.15,
-        shadowRadius: 14,
-        elevation: 8,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 6,
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+        backgroundColor: '#FFFFFF',
+        borderBottomWidth: 1,
+        borderBottomColor: '#F0F5F2',
+    },
+    backButton: {
+        marginRight: 16,
     },
     headerTitle: {
-        fontSize: 22,
+        flex: 1,
+        fontSize: 20,
         fontWeight: '800',
-        color: '#FFFFFF',
-        marginBottom: 6,
-        lineHeight: 28,
+        color: '#0F172A',
     },
-    headerSubtitle: {
-        fontSize: 14,
-        fontWeight: '500',
-        color: 'rgba(255,255,255,0.8)',
+    secureBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#ECFDF5',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        borderRadius: 16,
+        gap: 4,
+    },
+    secureText: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#008A5E',
+        letterSpacing: 0.5,
+    },
+    stepsContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+        paddingTop: 24,
+        paddingBottom: 24,
+        backgroundColor: '#FFFFFF',
+    },
+    stepWrapper: {
+        alignItems: 'center',
+        width: 60,
+    },
+    stepCircle: {
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: '#F8FAFC',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 8,
+    },
+    stepCircleActive: {
+        backgroundColor: '#008A5E',
+    },
+    stepNumber: {
+        fontSize: 16,
+        fontWeight: '800',
+        color: '#CBD5E1',
+    },
+    stepNumberActive: {
+        color: '#FFFFFF',
+    },
+    stepLabel: {
+        fontSize: 13,
+        fontWeight: '600',
+        color: '#94A3B8',
+    },
+    stepLabelActive: {
+        color: '#008A5E',
+    },
+    stepLine: {
+        flex: 1,
+        height: 2,
+        backgroundColor: '#E2E8F0',
+        marginHorizontal: 8,
+        marginTop: 21,
+        maxWidth: 70,
+    },
+    stepLineActive: {
+        backgroundColor: '#CCEAE0',
     },
     section: {
         marginBottom: 24,

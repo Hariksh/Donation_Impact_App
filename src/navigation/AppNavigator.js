@@ -27,11 +27,11 @@ const HomeStack = () => {
             <Stack.Screen
                 name="DonationScreen"
                 component={DonationScreen}
-                options={{ headerShown: true, title: 'Donate', headerBackTitleVisible: false }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="StoryDetailScreen"
-                component={StoryDetailScreen}/>
+                component={StoryDetailScreen} />
         </Stack.Navigator>
     );
 };
@@ -48,7 +48,7 @@ const CampaignStack = () => {
             <Stack.Screen
                 name="DonationScreen"
                 component={DonationScreen}
-                options={{ headerShown: true, title: 'Donate', headerBackTitleVisible: false }}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
