@@ -1,29 +1,18 @@
 {
   "expo": {
-    "name": "Frontend",
-    "slug": "Frontend",
+    "name": "Donation Impact App",
+    "slug": "donation_impact_app",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
+
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true
+      "package": "com.hariksh07.donationimpactapp",
+      "versionCode": 1
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+
+    "extra": {
+      "eas": {
+        "projectId": "14e7c21f-80b2-4efe-bd60-e4a58f912168"
+      }
     }
   }
 }
