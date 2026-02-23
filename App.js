@@ -10,7 +10,6 @@ export default function App() {
       <DonationProvider>
         <View style={styles.container}>
           <AppNavigator />
-          <StatusBar style="auto" />
         </View>
       </DonationProvider>
     </UserProvider>

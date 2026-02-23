@@ -1,4 +1,3 @@
-// new file content
 import React, { useState } from 'react';
 import {
     View,
@@ -8,10 +7,10 @@ import {
     FlatList,
     SafeAreaView,
     Platform,
-    StatusBar,
     ScrollView,
     TouchableOpacity
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CampaignCard from '../components/CampaignCard';
@@ -28,7 +27,6 @@ const HomeScreen = () => {
     const { totalDonated, familiesSupported, campaignsContributed, campaigns } = useDonation();
     const { userName } = useUser();
 
-    // Format total donated for display (e.g., 2.4Cr)
     const formatDonationAmount = (amount) => {
         if (amount >= 10000000) return `₹${(amount / 10000000).toFixed(1)}Cr`;
         if (amount >= 100000) return `₹${(amount / 100000).toFixed(1)}L`;
@@ -47,149 +45,126 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <StatusBar barStyle="light-content" backgroundColor="#008A5E" />
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-
-                {/* --- Top Green Banner --- */}
-                <View style={styles.topGreenBanner}>
-                    <View style={styles.headerTopRow}>
-                        <View style={styles.logoContainer}>
-                            <MaterialCommunityIcons name="mosque" size={26} color="#FFF" style={styles.logoIcon} />
-                            <Text style={styles.headerTitle}>Jamiat Foundation</Text>
+            <StatusBar style="light" />
+            <View style={styles.mainBackground}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+                    <View style={styles.topGreenBanner}>
+                        <View style={styles.headerTopRow}>
+                            <View style={styles.logoContainer}>
+                                <MaterialCommunityIcons name="mosque" size={26} color="#FFF" style={styles.logoIcon} />
+                                <Text style={styles.headerTitle}>Jamiat Foundation</Text>
+                            </View>
+                            <TouchableOpacity style={styles.notificationButton} activeOpacity={0.8}>
+                                <Ionicons name="notifications-outline" size={22} color="#FFF" />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.notificationButton} activeOpacity={0.8}>
-                            <Ionicons name="notifications-outline" size={22} color="#FFF" />
-                            <View style={styles.notificationDot} />
+                        <View style={styles.verseCard}>
+                            <Text style={styles.verseLabel}>QURAN VERSE</Text>
+                            <Text style={styles.verseText}>"And whatever you spend in good-it is for yourselves"</Text>
+                            <Text style={styles.verseReference}>Al-Baqarah 2:272</Text>
+                            <MaterialCommunityIcons name="book-open-page-variant" size={80} color="rgba(255, 255, 255, 0.05)" style={styles.verseBgIcon} />
+                        </View>
+                    </View>
+                    <View style={styles.statsCardWrapper}>
+                        <View style={styles.statsCard}>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statValue}>{livesImpacted}</Text>
+                                <Text style={styles.statLabel}>Lives</Text>
+                            </View>
+                            <View style={styles.statDivider} />
+                            <View style={styles.statItem}>
+                                <Text style={[styles.statValue, { color: '#008A5E' }]}>{formattedRaised}</Text>
+                                <Text style={styles.statLabel}>Raised</Text>
+                            </View>
+                            <View style={styles.statDivider} />
+                            <View style={styles.statItem}>
+                                <Text style={styles.statValue}>{donorsCount}</Text>
+                                <Text style={styles.statLabel}>Donors</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.searchContainer}>
+                        <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search campaigns..."
+                            placeholderTextColor="#999"
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                        />
+                    </View>
+                    <View style={styles.categoriesWrapper}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.categoryScrollContent}
+                        >
+                            {categories.map((cat, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={[
+                                        styles.categoryPill,
+                                        selectedCategory === cat && styles.categoryPillSelected
+                                    ]}
+                                    onPress={() => setSelectedCategory(cat)}
+                                >
+                                    <Text style={[
+                                        styles.categoryPillText,
+                                        selectedCategory === cat && styles.categoryPillTextSelected
+                                    ]}>{cat}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </View>
+                    <View style={styles.sectionTitleContainer}>
+                        <Text style={styles.sectionTitle}>Urgent Campaigns</Text>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => navigation.navigate('Campaigns')}
+                        >
+                            <Text style={styles.viewAllText}>View All</Text>
                         </TouchableOpacity>
                     </View>
 
-                    {/* Quran Verse Card */}
-                    <View style={styles.verseCard}>
-                        <Text style={styles.verseLabel}>QURAN VERSE</Text>
-                        <Text style={styles.verseText}>"And whatever you spend in good-it is for yourselves"</Text>
-                        <Text style={styles.verseReference}>Al-Baqarah 2:272</Text>
-                        <MaterialCommunityIcons name="book-open-page-variant" size={80} color="rgba(255, 255, 255, 0.05)" style={styles.verseBgIcon} />
-                    </View>
-                </View>
-
-                {/* --- Stats Card Overlapping Banner --- */}
-                <View style={styles.statsCardWrapper}>
-                    <View style={styles.statsCard}>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statValue}>{livesImpacted}</Text>
-                            <Text style={styles.statLabel}>Lives</Text>
-                        </View>
-                        <View style={styles.statDivider} />
-                        <View style={styles.statItem}>
-                            <Text style={[styles.statValue, { color: '#008A5E' }]}>{formattedRaised}</Text>
-                            <Text style={styles.statLabel}>Raised</Text>
-                        </View>
-                        <View style={styles.statDivider} />
-                        <View style={styles.statItem}>
-                            <Text style={styles.statValue}>{donorsCount}</Text>
-                            <Text style={styles.statLabel}>Donors</Text>
-                        </View>
-                    </View>
-                </View>
-
-                {/* --- Search Bar --- */}
-                <View style={styles.searchContainer}>
-                    <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search campaigns..."
-                        placeholderTextColor="#999"
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                    />
-                </View>
-
-                {/* --- Categories Filter --- */}
-                <View style={styles.categoriesWrapper}>
-                    <ScrollView
+                    <FlatList
+                        data={filteredCampaigns}
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.categoryScrollContent}
-                    >
-                        {categories.map((cat, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={[
-                                    styles.categoryPill,
-                                    selectedCategory === cat && styles.categoryPillSelected
-                                ]}
-                                onPress={() => setSelectedCategory(cat)}
-                            >
-                                <Text style={[
-                                    styles.categoryPillText,
-                                    selectedCategory === cat && styles.categoryPillTextSelected
-                                ]}>{cat}</Text>
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                            <View style={styles.horizontalCardWrapper}>
+                                <CampaignCard
+                                    campaign={item}
+                                    onPress={() => navigation.navigate('CampaignDetailsScreen', { campaign: item })}
+                                />
+                            </View>
+                        )}
+                        contentContainerStyle={styles.horizontalListContent}
+                        decelerationRate="fast"
+                        snapToInterval={316}
+                        snapToAlignment="start"
+                    />
+                    <View style={styles.quickDonationWrapper}>
+                        <Text style={[styles.sectionTitle, { marginBottom: 12 }]}>Quick Donation</Text>
+                        <QuickDonation />
+                    </View>
+                    <View style={styles.dailyGivingCard}>
+                        <View style={styles.dailyGivingContent}>
+                            <Text style={styles.dailyGivingTitle}>Start Your Daily Giving</Text>
+                            <Text style={styles.dailyGivingSubtitle}>Just ₹1/Day</Text>
+                            <TouchableOpacity style={styles.dailyGivingButton} activeOpacity={0.9}>
+                                <Text style={styles.dailyGivingButtonText}>Set Up Now</Text>
                             </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-
-                {/* --- Urgent Campaigns --- */}
-                <View style={styles.sectionTitleContainer}>
-                    <Text style={styles.sectionTitle}>Urgent Campaigns</Text>
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => navigation.navigate('Campaigns')}
-                    >
-                        <Text style={styles.viewAllText}>View All</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <FlatList
-                    data={filteredCampaigns}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View style={styles.horizontalCardWrapper}>
-                            <CampaignCard
-                                campaign={item}
-                                onPress={() => navigation.navigate('CampaignDetailsScreen', { campaign: item })}
-                            />
                         </View>
-                    )}
-                    contentContainerStyle={styles.horizontalListContent}
-                    decelerationRate="fast"
-                    snapToInterval={316}
-                    snapToAlignment="start"
-                />
-
-                {/* --- Quick Donation --- */}
-                <View style={styles.quickDonationWrapper}>
-                    <Text style={[styles.sectionTitle, { marginBottom: 12 }]}>Quick Donation</Text>
-                    <QuickDonation />
-                </View>
-
-                {/* --- Start Your Daily Giving Banner --- */}
-                <View style={styles.dailyGivingCard}>
-                    <View style={styles.dailyGivingContent}>
-                        <Text style={styles.dailyGivingTitle}>Start Your Daily Giving</Text>
-                        <Text style={styles.dailyGivingSubtitle}>Just ₹1/Day</Text>
-                        <TouchableOpacity style={styles.dailyGivingButton} activeOpacity={0.9}>
-                            <Text style={styles.dailyGivingButtonText}>Set Up Now</Text>
-                        </TouchableOpacity>
+                        <View style={styles.dailyGivingCircle} />
+                        <View style={[styles.dailyGivingCircle, styles.dailyGivingCircleSmall]} />
                     </View>
-                    <View style={styles.dailyGivingCircle} />
-                    <View style={[styles.dailyGivingCircle, styles.dailyGivingCircleSmall]} />
-                </View>
-
-                {/* --- Recent Impact --- */}
-                <View style={styles.recentImpactWrapper}>
-                    <View style={styles.sectionTitleContainer}>
-                        <Text style={styles.sectionTitle}>Recent Impact</Text>
-                        <TouchableOpacity activeOpacity={0.8}>
-                            <Text style={styles.viewAllText}>Read More</Text>
-                        </TouchableOpacity>
+                    <View style={styles.recentImpactWrapper}>
+                        <RecentImpact />
                     </View>
-                    <RecentImpact />
-                </View>
 
-            </ScrollView>
+                </ScrollView>
+            </View>
         </SafeAreaView>
     );
 };
@@ -197,8 +172,12 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#F4F4F4',
+        backgroundColor: '#008A5E',
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    },
+    mainBackground: {
+        flex: 1,
+        backgroundColor: '#F4F4F4',
     },
     scrollContent: {
         paddingBottom: 24,
@@ -240,14 +219,15 @@ const styles = StyleSheet.create({
     },
     notificationDot: {
         position: 'absolute',
-        top: 10,
-        right: 10,
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: '#E74C3C',
-        borderWidth: 1,
+        top: 8,
+        right: 8,
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: '#FF3B30',
+        borderWidth: 1.5,
         borderColor: '#008A5E',
+        zIndex: 10,
     },
     verseCard: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
