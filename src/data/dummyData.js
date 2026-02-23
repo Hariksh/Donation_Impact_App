@@ -1,33 +1,29 @@
 export const dummyCampaigns = [
     {
         id: '1',
-        title: 'Provide Medical Supplies for Rural Clinics',
-        image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        raised: 45000,
-        goal: 100000,
+        title: 'Medical Aid for Gaza',
+        image: 'https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        raised: 3750000,
+        goal: 5000000,
         donors: 128,
         urgent: true,
         featured: true,
-        category: 'Health',
-        description:
-            'Rural clinics across remote villages in India are struggling with a severe shortage of essential medical supplies. Many of these clinics serve as the only healthcare access point for thousands of families living in underserved areas.\n\n' +
-            'Your donation will help procure life-saving medicines, surgical instruments, diagnostic kits, and basic healthcare essentials. We are working directly with local health departments to ensure transparent and efficient distribution.\n\n' +
-            'With your support, we aim to equip 25 rural clinics by the end of this quarter, providing reliable healthcare to over 50,000 people. Every contribution — no matter how small — brings us closer to saving lives.',
+        category: 'HEALTH',
+        location: 'Gaza Region',
+        description: 'Providing emergency medical supplies and trauma care to hospitals facing critical shortages.'
     },
     {
         id: '2',
-        title: 'Clean Water Project in Drought Areas',
+        title: 'Clean Water Hand Pumps',
         image: 'https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        raised: 82000,
-        goal: 120000,
+        raised: 504000,
+        goal: 1200000,
         donors: 342,
         urgent: false,
         featured: true,
-        category: 'Water',
-        description:
-            'Prolonged droughts have left several communities in Rajasthan and Maharashtra without access to clean drinking water. Families are forced to walk miles every day or rely on contaminated water sources, leading to widespread waterborne diseases.\n\n' +
-            'This campaign funds the installation of borewells, water purification units, and community rainwater harvesting systems in the most affected regions. Each system is designed to serve 200–500 families sustainably.\n\n' +
-            'We have already completed installations in 3 villages, and your continued support will help us reach 10 more before the next dry season. Together, we can ensure no family has to choose between thirst and illness.',
+        category: 'INFRASTRUCTURE',
+        location: 'Rural Mewat',
+        description: 'Installing durable hand pumps in villages with no access to safe drinking water.'
     },
     {
         id: '3',

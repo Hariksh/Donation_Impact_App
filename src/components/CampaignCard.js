@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Animated } from 'react
 import { useNavigation } from '@react-navigation/native';
 
 const CampaignCard = ({ campaign, onPress }) => {
-    const { image, title, raised, goal, donors, urgent } = campaign;
+    const { image, title, raised, goal, category, location, description } = campaign;
     const progressRatio = Math.min(raised / goal, 1);
     const progressPercent = progressRatio * 100;
     const navigation = useNavigation();
@@ -18,6 +18,13 @@ const CampaignCard = ({ campaign, onPress }) => {
         }).start();
     }, [progressPercent]);
 
+    const formatAmount = (amount) => {
+        if (amount >= 100000) {
+            return `₹${(amount / 100000).toFixed(1)}L`;
+        }
+        return `₹${amount.toLocaleString()}`;
+    };
+
     return (
         <TouchableOpacity
             style={styles.card}
@@ -26,50 +33,60 @@ const CampaignCard = ({ campaign, onPress }) => {
         >
             <View style={styles.imageContainer}>
                 <Image source={{ uri: image }} style={styles.image} />
-                <View style={styles.badgesContainer}>
-                    {urgent && (
-                        <View style={[styles.badge, styles.urgentBadge]}>
-                            <Text style={styles.badgeText}>URGENT</Text>
-                        </View>
-                    )}
-                    {campaign.category && (
-                        <View style={[styles.badge, styles.categoryBadge]}>
-                            <Text style={styles.badgeText}>{campaign.category}</Text>
-                        </View>
-                    )}
-                </View>
+                {campaign.urgent && (
+                    <View style={styles.urgentBadge}>
+                        <Text style={styles.urgentBadgeText}>HIGH PRIORITY</Text>
+                    </View>
+                )}
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.title} numberOfLines={2}>{title}</Text>
-
-                <View style={styles.statsContainer}>
-                    <Text style={styles.raisedText}>₹{raised.toLocaleString()}</Text>
-                    <Text style={styles.goalText}> raised of ₹{goal.toLocaleString()}</Text>
+                <View style={styles.headerInfo}>
+                    <Text style={styles.categoryText}>{category ? category.toUpperCase() : 'GENERAL'}</Text>
+                    <View style={styles.dotSeparator} />
+                    <Text style={styles.locationText}>{location || 'India'}</Text>
                 </View>
 
-                <View style={styles.progressBarBackground}>
-                    <Animated.View
-                        style={[
-                            styles.progressBarFill,
-                            {
-                                width: animatedWidth.interpolate({
-                                    inputRange: [0, 100],
-                                    outputRange: ['0%', '100%']
-                                })
-                            }
-                        ]}
-                    />
+                <Text style={styles.title} numberOfLines={2}>{title}</Text>
+
+                {description && (
+                    <Text style={styles.description} numberOfLines={3}>
+                        {description}
+                    </Text>
+                )}
+
+                <View style={styles.progressSection}>
+                    <View style={styles.progressHeader}>
+                        <Text style={styles.progressPercentText}>{Math.floor(progressPercent)}% <Text style={styles.raisedLabel}>Raised</Text></Text>
+                        <Text style={styles.goalText}>Goal: {formatAmount(goal)}</Text>
+                    </View>
+
+                    <View style={styles.progressBarBackground}>
+                        <Animated.View
+                            style={[
+                                styles.progressBarFill,
+                                {
+                                    width: animatedWidth.interpolate({
+                                        inputRange: [0, 100],
+                                        outputRange: ['0%', '100%']
+                                    })
+                                }
+                            ]}
+                        />
+                    </View>
                 </View>
 
                 <View style={styles.footer}>
-                    <Text style={styles.donorsText}>{donors} Supporters</Text>
+                    <View style={styles.amountContainer}>
+                        <Text style={styles.amountRaisedLabel}>AMOUNT RAISED</Text>
+                        <Text style={styles.raisedAmountText}>{formatAmount(raised)}</Text>
+                    </View>
                     <TouchableOpacity
                         style={styles.donateButton}
                         activeOpacity={0.8}
                         onPress={() => navigation.navigate('DonationScreen', { campaign })}
                     >
-                        <Text style={styles.donateButtonText}>Donate</Text>
+                        <Text style={styles.donateButtonText}>Donate Now</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -80,108 +97,149 @@ const CampaignCard = ({ campaign, onPress }) => {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#FFFFFF',
-        borderRadius: 16,
-        marginVertical: 10,
+        borderRadius: 20,
+        marginVertical: 12,
         overflow: 'hidden',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-        elevation: 5,
+        shadowOpacity: 0.08,
+        shadowRadius: 16,
+        elevation: 4,
+        marginHorizontal: 4,
     },
     imageContainer: {
-        height: 180,
+        height: 200,
         width: '100%',
         backgroundColor: '#EAEAEA',
+        position: 'relative',
     },
     image: {
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
     },
-    badgesContainer: {
+    urgentBadge: {
         position: 'absolute',
-        top: 12,
-        left: 12,
-        flexDirection: 'row',
-        gap: 8,
-    },
-    badge: {
+        top: 16,
+        left: 16,
+        backgroundColor: '#F39C12',
         paddingHorizontal: 12,
         paddingVertical: 6,
-        borderRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        elevation: 3,
+        borderRadius: 20,
     },
-    urgentBadge: {
-        backgroundColor: '#E74C3C',
-    },
-    categoryBadge: {
-        backgroundColor: '#3498DB',
-    },
-    badgeText: {
+    urgentBadgeText: {
         color: '#FFFFFF',
-        fontSize: 11,
-        fontWeight: '800',
+        fontSize: 10,
+        fontWeight: 'bold',
         letterSpacing: 0.5,
-        textTransform: 'uppercase',
     },
     content: {
-        padding: 20,
+        padding: 24,
     },
-    title: {
-        fontSize: 17,
-        fontWeight: '700',
-        color: '#222222',
-        marginBottom: 12,
-        lineHeight: 24,
-        minHeight: 48,
-    },
-    statsContainer: {
+    headerInfo: {
         flexDirection: 'row',
-        alignItems: 'baseline',
+        alignItems: 'center',
         marginBottom: 10,
     },
-    raisedText: {
-        fontSize: 15,
+    categoryText: {
+        fontSize: 11,
         fontWeight: 'bold',
         color: '#008A5E',
+        letterSpacing: 0.5,
     },
-    goalText: {
-        fontSize: 13,
+    dotSeparator: {
+        width: 3,
+        height: 3,
+        borderRadius: 1.5,
+        backgroundColor: '#D1D1D1',
+        marginHorizontal: 8,
+    },
+    locationText: {
+        fontSize: 12,
         color: '#777777',
         fontWeight: '500',
     },
-    progressBarBackground: {
-        height: 8,
-        backgroundColor: '#E8E8E8',
-        borderRadius: 4,
+    title: {
+        fontSize: 20,
+        fontWeight: '800',
+        color: '#111111',
+        marginBottom: 8,
+        lineHeight: 26,
+    },
+    description: {
+        fontSize: 14,
+        color: '#666666',
+        lineHeight: 22,
         marginBottom: 20,
+    },
+    progressSection: {
+        marginBottom: 20,
+    },
+    progressHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        marginBottom: 8,
+    },
+    progressPercentText: {
+        fontSize: 16,
+        fontWeight: '800',
+        color: '#008A5E',
+    },
+    raisedLabel: {
+        fontSize: 12,
+        fontWeight: '500',
+        color: '#999999',
+    },
+    goalText: {
+        fontSize: 12,
+        color: '#999999',
+        fontWeight: '500',
+    },
+    progressBarBackground: {
+        height: 6,
+        backgroundColor: '#F0F0F0',
+        borderRadius: 3,
         overflow: 'hidden',
     },
     progressBarFill: {
         height: '100%',
         backgroundColor: '#008A5E',
-        borderRadius: 4,
+        borderRadius: 3,
     },
     footer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingTop: 16,
+        borderTopWidth: 1,
+        borderTopColor: '#F0F0F0',
     },
-    donorsText: {
-        fontSize: 13,
-        color: '#666666',
-        fontWeight: '600',
+    amountContainer: {
+        justifyContent: 'center',
+    },
+    amountRaisedLabel: {
+        fontSize: 9,
+        fontWeight: 'bold',
+        color: '#A0A0A0',
+        marginBottom: 4,
+        letterSpacing: 0.5,
+    },
+    raisedAmountText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#111111',
     },
     donateButton: {
         backgroundColor: '#008A5E',
         paddingHorizontal: 24,
-        paddingVertical: 10,
-        borderRadius: 24,
+        paddingVertical: 12,
+        borderRadius: 8,
+        shadowColor: '#008A5E',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        elevation: 4,
     },
     donateButtonText: {
         color: '#FFFFFF',
