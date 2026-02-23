@@ -67,26 +67,30 @@ const AppNavigator = () => {
                         paddingBottom: 5,
                         paddingTop: 5,
                         height: 60,
+                        backgroundColor: '#FFFFFF',
                     },
                     tabBarIcon: ({ focused, color, size }) => {
-                        let iconName
+                        let iconName;
                         if (route.name === 'Home') {
-                            iconName = focused ? 'home' : 'home-outline'
-                        } else if (route.name === 'Campaigns') {
-                            iconName = focused ? 'heart' : 'heart-outline'
-                        } else if (route.name === 'Impact') {
-                            iconName = focused ? 'analytics' : 'analytics-outline'
+                            iconName = focused ? 'home' : 'home-outline';
+                        } else if (route.name === 'Project') {
+                            iconName = focused ? 'clipboard' : 'clipboard-outline';
+                        } else if (route.name === 'Our impact') {
+                            iconName = focused ? 'bar-chart' : 'bar-chart-outline';
                         } else if (route.name === 'Profile') {
-                            iconName = focused ? 'person' : 'person-outline'
+                            iconName = focused ? 'person' : 'person-outline';
+                        } else if (route.name === 'Donate') {
+                            iconName = focused ? 'heart' : 'heart-outline';
                         }
-                        return <Ionicons name={iconName} size={size} color={color} />
+                        return <Ionicons name={iconName} size={size} color={color} />;
                     },
                 })}
             >
                 <Tab.Screen name="Home" component={HomeStack} />
-                <Tab.Screen name="Campaigns" component={CampaignStack} />
-                <Tab.Screen name="Impact" component={ImpactScreen} />
+                <Tab.Screen name="Project" component={CampaignStack} />
+                <Tab.Screen name="Our impact" component={ImpactScreen} />
                 <Tab.Screen name="Profile" component={ProfileScreen} />
+                <Tab.Screen name="Donate" component={DonationScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     );
