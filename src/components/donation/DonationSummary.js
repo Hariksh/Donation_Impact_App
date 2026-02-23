@@ -1,36 +1,72 @@
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-const DonationSummary = ({ amount, isRecurring }) => {
-    if (!amount || amount <= 0) return null;
+
+const DonationSummary = ({ finalAmount }) => {
     return (
-        <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>You are donating</Text>
-            <Text style={styles.summaryAmount}>
-                ₹{amount.toLocaleString('en-IN')}
-                {isRecurring ? ' / month' : ''}
-            </Text>
+        <View>
+            <Text style={styles.sectionTitle}>Donation Summary</Text>
+            <View style={styles.summaryCard}>
+                <View style={styles.summaryRow}>
+                    <Text style={styles.summaryLabel}>Donation Amount</Text>
+                    <Text style={styles.summaryValue}>₹{finalAmount ? finalAmount.toLocaleString('en-IN') : '0'}.00</Text>
+                </View>
+                <View style={styles.summaryRow}>
+                    <Text style={styles.summaryLabel}>Processing Fee</Text>
+                    <Text style={styles.summaryValue}>₹0.00</Text>
+                </View>
+                <View style={styles.divider} />
+                <View style={styles.summaryRow}>
+                    <Text style={styles.totalLabel}>Total Contribution</Text>
+                    <Text style={styles.totalValue}>₹{finalAmount ? finalAmount.toLocaleString('en-IN') : '0'}</Text>
+                </View>
+            </View>
         </View>
     );
 };
+
 const styles = StyleSheet.create({
+    sectionTitle: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#333',
+        marginTop: 24,
+        marginBottom: 12
+    },
     summaryCard: {
-        backgroundColor: '#F0F8F6',
-        borderRadius: 16,
+        backgroundColor: '#F0FDF4',
+        borderRadius: 20,
         padding: 20,
-        alignItems: 'center',
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: '#D0E8E2',
+        marginBottom: 20
+    },
+    summaryRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10
     },
     summaryLabel: {
         fontSize: 13,
-        fontWeight: '600',
-        color: '#777777',
-        marginBottom: 4,
+        color: '#777'
     },
-    summaryAmount: {
-        fontSize: 28,
-        fontWeight: '900',
-        color: '#008A5E',
+    summaryValue: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#444'
     },
+    divider: {
+        height: 1,
+        backgroundColor: '#E2E8F0',
+        marginVertical: 12
+    },
+    totalLabel: {
+        fontSize: 14,
+        fontWeight: '800',
+        color: '#222'
+    },
+    totalValue: {
+        fontSize: 20,
+        fontWeight: '800',
+        color: '#008A5E'
+    }
 });
+
 export default DonationSummary;

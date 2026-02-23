@@ -1,99 +1,70 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-const DONATION_TYPES = [
-    { label: 'Zakat', icon: 'cash' },
-    { label: 'Sadaqa', icon: 'hand-heart-outline' },
-    { label: 'Lillah', icon: 'heart-outline' },
-];
 const DonationTypeSelector = ({ selectedType, setSelectedType }) => {
     return (
-        <View style={styles.section}>
-            <View style={styles.headerRow}>
-                <Text style={styles.sectionTitle}>DONATION TYPE</Text>
-                <View style={styles.taxBadge}>
-                    <Text style={styles.taxBadgeText}>80G TAX BENEFIT</Text>
-                </View>
-            </View>
-            <View style={styles.cardsContainer}>
-                {DONATION_TYPES.map((type) => {
-                    const isActive = selectedType === type.label;
-                    return (
-                        <TouchableOpacity
-                            key={type.label}
-                            style={[styles.typeCard, isActive && styles.typeCardActive]}
-                            activeOpacity={0.8}
-                            onPress={() => setSelectedType(type.label)}>
-                            <MaterialCommunityIcons
-                                name={type.icon}
-                                size={28}
-                                color={isActive ? '#008A5E' : '#94A3B8'}
-                                style={styles.typeCardIcon} />
-                            <Text style={[styles.typeCardText, isActive && styles.typeCardTextActive]}>
-                                {type.label}
-                            </Text>
-                        </TouchableOpacity>
-                    );
-                })}
+        <View>
+            <Text style={styles.sectionTitle}>Donation Type</Text>
+            <View style={styles.grid2}>
+                {[
+                    { id: 'Zakat', icon: 'cash-outline' },
+                    { id: 'Sadaqah', icon: 'heart-outline' },
+                    { id: 'Fitrana', icon: 'restaurant-outline' },
+                    { id: 'General', icon: 'infinite-outline' },
+                ].map((type) => (
+                    <TouchableOpacity
+                        key={type.id}
+                        style={[styles.typeButton, selectedType === type.id && styles.typeButtonActive]}
+                        onPress={() => setSelectedType(type.id)}
+                        activeOpacity={0.8}
+                    >
+                        <Ionicons name={type.icon} size={20} color={selectedType === type.id ? "#008A5E" : "#777"} />
+                        <Text style={[styles.typeButtonText, selectedType === type.id && styles.typeButtonTextActive]}>{type.id}</Text>
+                    </TouchableOpacity>
+                ))}
             </View>
         </View>
     );
 };
+
 const styles = StyleSheet.create({
-    section: {
-        marginBottom: 24,
-    },
-    headerRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 16,
-    },
     sectionTitle: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: '700',
-        color: '#64748B',
-        letterSpacing: 1.2,
+        color: '#333',
+        marginTop: 24,
+        marginBottom: 12
     },
-    taxBadge: {
-        backgroundColor: '#FEF3C7',
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        borderRadius: 12,
-    },
-    taxBadgeText: {
-        fontSize: 11,
-        fontWeight: '800',
-        color: '#B45309',
-    },
-    cardsContainer: {
+    grid2: {
         flexDirection: 'row',
-        gap: 12,
+        flexWrap: 'wrap',
+        justifyContent: 'space-between'
     },
-    typeCard: {
-        flex: 1,
+    typeButton: {
+        width: '48%',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF',
-        paddingVertical: 18,
-        borderRadius: 12,
-        borderWidth: 1.5,
-        borderColor: '#E2E8F0',
+        borderWidth: 1,
+        borderColor: '#EEE',
+        borderRadius: 24,
+        padding: 14,
+        marginBottom: 12
     },
-    typeCardActive: {
-        backgroundColor: '#ECFDF5',
+    typeButtonActive: {
         borderColor: '#008A5E',
+        backgroundColor: '#F0FFF8'
     },
-    typeCardIcon: {
-        marginBottom: 8,
-    },
-    typeCardText: {
+    typeButtonText: {
+        marginLeft: 8,
         fontSize: 14,
-        fontWeight: '700',
-        color: '#0F172A',
+        fontWeight: '600',
+        color: '#666'
     },
-    typeCardTextActive: {
+    typeButtonTextActive: {
         color: '#008A5E',
-    },
+        fontWeight: '700'
+    }
 });
+
 export default DonationTypeSelector;
