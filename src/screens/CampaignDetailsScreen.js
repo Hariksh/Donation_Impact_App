@@ -132,14 +132,14 @@ const CampaignDetailsScreen = () => {
 
                     <View style={styles.breakdownContainer}>
                         <View style={styles.breakdownHeader}>
-                            <Ionicons name="bar-chart-outline" size={20} color="#0D6855" />
+                            <Ionicons name="bar-chart-outline" size={20} color="#008A5E" />
                             <Text style={styles.breakdownTitle}>Where your money goes</Text>
                         </View>
 
                         <View style={styles.breakdownCard}>
                             <View style={styles.breakdownItemRow}>
                                 <View style={styles.breakdownIconWrapper}>
-                                    <Ionicons name="restaurant-outline" size={18} color="#0D6855" />
+                                    <Ionicons name="restaurant-outline" size={18} color="#008A5E" />
                                 </View>
                                 <View style={styles.breakdownItemContent}>
                                     <View style={styles.breakdownTextRow}>
@@ -154,7 +154,7 @@ const CampaignDetailsScreen = () => {
 
                             <View style={styles.breakdownItemRow}>
                                 <View style={styles.breakdownIconWrapper}>
-                                    <Ionicons name="medkit-outline" size={18} color="#0D6855" />
+                                    <Ionicons name="medkit-outline" size={18} color="#008A5E" />
                                 </View>
                                 <View style={styles.breakdownItemContent}>
                                     <View style={styles.breakdownTextRow}>
@@ -169,7 +169,7 @@ const CampaignDetailsScreen = () => {
 
                             <View style={styles.breakdownItemRow}>
                                 <View style={styles.breakdownIconWrapper}>
-                                    <Ionicons name="home-outline" size={18} color="#0D6855" />
+                                    <Ionicons name="home-outline" size={18} color="#008A5E" />
                                 </View>
                                 <View style={styles.breakdownItemContent}>
                                     <View style={styles.breakdownTextRow}>
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     raisedAmountText: {
         fontSize: 20,
         fontWeight: '800',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     goalAmountText: {
         fontSize: 14,
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     },
     progressBarFill: {
         height: '100%',
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 5,
     },
     statsRow: {
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     statBadgeValue: {
         fontSize: 18,
         fontWeight: '800',
-        color: '#0D6855',
+        color: '#008A5E',
         marginBottom: 2,
     },
     statBadgeLabel: {
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     },
     breakdownFill: {
         height: '100%',
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 3,
     },
     donateButtonContainer: {
@@ -393,12 +393,12 @@ const styles = StyleSheet.create({
         borderTopColor: '#EEEEEE',
     },
     donateButton: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingVertical: 16,
         borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: '#0D6855',
+        shadowColor: '#008A5E',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.35,
         shadowRadius: 10,
@@ -438,7 +438,7 @@ const styles = StyleSheet.create({
         marginBottom: 28,
     },
     fallbackButton: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingHorizontal: 36,
         paddingVertical: 14,
         borderRadius: 24,

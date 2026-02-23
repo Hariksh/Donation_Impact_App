@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     },
     headerLink: {
         fontSize: 14,
-        color: '#0D6855',
+        color: '#008A5E',
         fontWeight: '600',
     },
     listContent: {
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     },
     readMoreText: {
         fontSize: 13,
-        color: '#0D6855',
+        color: '#008A5E',
         fontWeight: 'bold',
         textTransform: 'uppercase',
     },

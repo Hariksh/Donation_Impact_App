@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     amountButtonActive: {
-        backgroundColor: '#0D6855',
-        borderColor: '#0D6855',
-        shadowColor: '#0D6855',
+        backgroundColor: '#008A5E',
+        borderColor: '#008A5E',
+        shadowColor: '#008A5E',
         shadowOpacity: 0.25,
     },
     amountButtonText: {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     currencyPrefix: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#0D6855',
+        color: '#008A5E',
         marginRight: 8,
     },
     customAmountInput: {

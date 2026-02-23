@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     raisedText: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     goalText: {
         fontSize: 13,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     },
     progressBarFill: {
         height: '100%',
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 4,
     },
     footer: {
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     donateButton: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingHorizontal: 24,
         paddingVertical: 10,
         borderRadius: 24,

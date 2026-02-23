@@ -62,7 +62,7 @@ const StoryDetailScreen = ({ route, navigation }) => {
                                     <Ionicons
                                         name={stat.icon}
                                         size={22}
-                                        color="#0D6855"
+                                        color="#008A5E"
                                     />
                                     <Text style={styles.statValue}>{stat.value}</Text>
                                     <Text style={styles.statLabel}>{stat.label}</Text>
@@ -71,7 +71,7 @@ const StoryDetailScreen = ({ route, navigation }) => {
                         </View>
                     )}
                     <View style={styles.summaryCard}>
-                        <Ionicons name="information-circle-outline" size={20} color="#0D6855" />
+                        <Ionicons name="information-circle-outline" size={20} color="#008A5E" />
                         <Text style={styles.summaryText}>{story.description}</Text>
                     </View>
                     <Text style={styles.sectionTitle}>The Full Story</Text>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         right: 20,
     },
     categoryBadge: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingHorizontal: 12,
         paddingVertical: 5,
         borderRadius: 20,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         marginTop: 7,
         marginRight: 12,
     },
@@ -259,13 +259,13 @@ const styles = StyleSheet.create({
     },
     shareButton: {
         flexDirection: 'row',
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 14,
         paddingVertical: 16,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-        shadowColor: '#0D6855',
+        shadowColor: '#008A5E',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,

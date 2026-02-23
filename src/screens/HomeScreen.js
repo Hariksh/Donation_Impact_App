@@ -11,7 +11,7 @@ import {
     ScrollView,
     TouchableOpacity
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CampaignCard from '../components/CampaignCard';
 import QuickDonation from '../components/QuickDonation';
@@ -37,7 +37,7 @@ const HomeScreen = () => {
                     <View style={styles.headerTopRow}>
                         <View style={styles.greetingContainer}>
                             <View style={styles.avatarPlaceholder}>
-                                <Ionicons name="person" size={24} color="#0D6855" />
+                                <Ionicons name="person" size={24} color="#008A5E" />
                             </View>
                             <View>
                                 <Text style={styles.greetingText}>Assalamu Alaikum,</Text>
@@ -56,7 +56,7 @@ const HomeScreen = () => {
                             <Text style={styles.impactAmount}>{familiesSupported} Families</Text>
                             <Text style={styles.impactSubtitle}>Supported through your generous contributions</Text>
                         </View>
-                        <Ionicons name="heart" size={120} color="rgba(255, 255, 255, 0.1)" style={styles.impactCardIcon} />
+                        <MaterialCommunityIcons name="hand-heart" size={85} color="rgba(255, 255, 255, 0.1)" style={styles.impactCardIcon} />
                     </View>
 
                     <View style={styles.searchContainer}>
@@ -181,11 +181,11 @@ const styles = StyleSheet.create({
         borderColor: '#FFFFFF',
     },
     impactCard: {
-        backgroundColor: '#0D6855', // strictly the green from figma
+        backgroundColor: '#008A5E',
         borderRadius: 20,
         padding: 24,
         marginBottom: 28,
-        shadowColor: '#0D6855',
+        shadowColor: '#008A5E',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.25,
         shadowRadius: 14,
@@ -217,9 +217,9 @@ const styles = StyleSheet.create({
     },
     impactCardIcon: {
         position: 'absolute',
-        right: -20,
-        bottom: -30,
-        transform: [{ rotate: '-15deg' }],
+        right: -10,
+        bottom: -15,
+        transform: [{ rotate: '-12deg' }],
     },
     searchContainer: {
         flexDirection: 'row',
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     viewAllText: {
         fontSize: 15,
         fontWeight: '700',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     horizontalListContent: {
         paddingHorizontal: 20,

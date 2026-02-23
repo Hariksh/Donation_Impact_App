@@ -9,7 +9,7 @@ const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress, isLast }
     <TouchableOpacity style={[styles.settingRow, isLast && { borderBottomWidth: 0 }]} onPress={onPress} activeOpacity={isToggle ? 1 : 0.6}>
         <View style={styles.settingLeft}>
             <View style={styles.settingIconCircle}>
-                <Ionicons name={icon} size={18} color="#0D6855" />
+                <Ionicons name={icon} size={18} color="#008A5E" />
             </View>
             <Text style={styles.settingTitle}>{title}</Text>
         </View>
@@ -17,7 +17,7 @@ const SettingItem = ({ icon, title, isToggle, value, onToggle, onPress, isLast }
             <Switch
                 value={value}
                 onValueChange={onToggle}
-                trackColor={{ false: '#E0E0E0', true: '#0D6855' }}
+                trackColor={{ false: '#E0E0E0', true: '#008A5E' }}
                 thumbColor="#FFFFFF"
             />
         ) : (
@@ -64,7 +64,7 @@ const ProfileScreen = () => {
                 <html>
                     <body style="font-family: Helvetica, Arial, sans-serif; padding: 40px; color: #333;">
                         <div style="text-align: center; margin-bottom: 30px;">
-                            <h1 style="color: #0D6855; margin-bottom: 5px;">DONATION IMPACT CHARITY</h1>
+                            <h1 style="color: #008A5E; margin-bottom: 5px;">DONATION IMPACT CHARITY</h1>
                             <p style="color: #666; margin-top: 0;">Official Tax Receipt</p>
                         </div>
                         <hr style="border: 0; border-top: 1px solid #E0E0E0; margin-bottom: 30px;" />
@@ -148,7 +148,7 @@ const ProfileScreen = () => {
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 <View style={styles.profileHeader}>
                     <View style={styles.avatarCircle}>
-                        <Ionicons name="person" size={40} color="#0D6855" />
+                        <Ionicons name="person" size={40} color="#008A5E" />
                     </View>
                     {isEditing ? (
                         <>
@@ -183,7 +183,7 @@ const ProfileScreen = () => {
                             <Text style={styles.userEmail}>{userEmail}</Text>
                             <Text style={styles.memberSince}>Member since 2024</Text>
                             <TouchableOpacity style={styles.editProfileBtn} onPress={handleEdit}>
-                                <Ionicons name="create-outline" size={16} color="#0D6855" />
+                                <Ionicons name="create-outline" size={16} color="#008A5E" />
                                 <Text style={styles.editProfileText}>Edit Profile</Text>
                             </TouchableOpacity>
                         </>
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1.5,
-        borderColor: '#0D6855',
+        borderColor: '#008A5E',
         borderRadius: 20,
         paddingHorizontal: 20,
         paddingVertical: 8,
@@ -296,11 +296,11 @@ const styles = StyleSheet.create({
     editProfileText: {
         fontSize: 13,
         fontWeight: '700',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     statsCard: {
         flexDirection: 'row',
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 18,
         padding: 20,
         marginBottom: 28,
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
         marginTop: 6,
     },
     saveBtn: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingHorizontal: 28,
         paddingVertical: 10,
         borderRadius: 20,

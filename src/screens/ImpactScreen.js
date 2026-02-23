@@ -48,7 +48,7 @@ const ImpactScreen = () => {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
                     <style>
                         body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #333; }
-                        h1 { text-align: center; color: #0D6855; margin-bottom: 5px; }
+                        h1 { text-align: center; color: #008A5E; margin-bottom: 5px; }
                         .subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 40px; }
                         .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                         .details-table th, .details-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
@@ -103,7 +103,7 @@ const ImpactScreen = () => {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
                     <style>
                         body { font-family: 'Helvetica', sans-serif; padding: 40px; color: #333; }
-                        h1 { text-align: center; color: #0D6855; margin-bottom: 5px; }
+                        h1 { text-align: center; color: #008A5E; margin-bottom: 5px; }
                         .subtitle { text-align: center; font-size: 14px; color: #666; margin-bottom: 40px; }
                         .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                         .details-table th, .details-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
@@ -153,7 +153,7 @@ const ImpactScreen = () => {
     const renderHistoryItem = ({ item }) => (
         <View style={styles.donationCard}>
             <View style={styles.donationIconCircle}>
-                <Ionicons name="heart" size={24} color="#0D6855" />
+                <Ionicons name="heart" size={24} color="#008A5E" />
             </View>
             <View style={styles.donationInfo}>
                 <Text style={styles.donationTitle} numberOfLines={1}>{item.donationType || 'General Donation'}</Text>
@@ -162,7 +162,7 @@ const ImpactScreen = () => {
             <View style={styles.donationRight}>
                 <Text style={styles.donationAmount}>₹{item.amount.toLocaleString('en-IN')}{item.isRecurring ? ' / month' : ''}</Text>
                 <TouchableOpacity onPress={() => handleDownloadIndividualReceipt(item)} style={{ padding: 4 }}>
-                    <Ionicons name="download-outline" size={18} color="#0D6855" />
+                    <Ionicons name="download-outline" size={18} color="#008A5E" />
                 </TouchableOpacity>
             </View>
         </View>
@@ -222,7 +222,7 @@ const ImpactScreen = () => {
                     <Text style={styles.statCardValue}>{campaignsContributed}</Text>
                     <View style={styles.categoryDots}>
                         <View style={[styles.dot, { backgroundColor: '#FF6B6B' }]}><Text style={styles.dotText}>R</Text></View>
-                        <View style={[styles.dot, { backgroundColor: '#0D6855' }]}><Text style={styles.dotText}>E</Text></View>
+                        <View style={[styles.dot, { backgroundColor: '#008A5E' }]}><Text style={styles.dotText}>E</Text></View>
                         <View style={[styles.dot, { backgroundColor: '#4ECDC4' }]}><Text style={styles.dotText}>W</Text></View>
                     </View>
                 </View>
@@ -233,7 +233,7 @@ const ImpactScreen = () => {
                     <Text style={styles.taxTitle}>Tax Savings (80G)</Text>
                     <Text style={styles.taxSubtitle}>Download your FY 2023-24 tax-exempt certificate now.</Text>
                     <TouchableOpacity style={styles.taxButton} onPress={handleDownloadReceipt}>
-                        <Ionicons name="download-outline" size={16} color="#0D6855" />
+                        <Ionicons name="download-outline" size={16} color="#008A5E" />
                         <Text style={styles.taxButtonText}>Download 80G Receipt</Text>
                     </TouchableOpacity>
                 </View>
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     goldBadge: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingHorizontal: 14,
         paddingVertical: 4,
         borderRadius: 12,
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     viewProfileLink: {
         fontSize: 13,
         fontWeight: '600',
-        color: '#0D6855',
+        color: '#008A5E',
         marginTop: 8,
     },
     totalImpactCard: {
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
         padding: 20,
         marginBottom: 12,
         borderLeftWidth: 4,
-        borderLeftColor: '#0D6855',
+        borderLeftColor: '#008A5E',
     },
     totalImpactLabel: {
         fontSize: 12,
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     growthBadgeText: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     statsGrid: {
         flexDirection: 'row',
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     },
     statProgressFill: {
         height: '100%',
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 3,
     },
     categoryDots: {
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     taxCard: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 16,
         padding: 22,
         marginBottom: 28,
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     taxButtonText: {
         fontSize: 13,
         fontWeight: '700',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     timelineSection: {
         marginBottom: 28,
@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
     seeAllText: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#0D6855',
+        color: '#008A5E',
     },
     timelineItem: {
         flexDirection: 'row',
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
         width: 12,
         height: 12,
         borderRadius: 6,
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         marginTop: 4,
     },
     timelineLine: {
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
     timelineDate: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#0D6855',
+        color: '#008A5E',
         marginBottom: 4,
     },
     timelineTitle: {

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     summaryAmount: {
         fontSize: 28,
         fontWeight: '900',
-        color: '#0D6855',
+        color: '#008A5E',
     },
 });
 export default DonationSummary;

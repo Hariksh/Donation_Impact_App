@@ -61,7 +61,7 @@ const AppNavigator = () => {
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     headerShown: false,
-                    tabBarActiveTintColor: '#0D6855',
+                    tabBarActiveTintColor: '#008A5E',
                     tabBarInactiveTintColor: '#888',
                     tabBarStyle: {
                         paddingBottom: 5,

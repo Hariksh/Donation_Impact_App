@@ -97,14 +97,14 @@ const DonationScreen = () => {
                 <View style={styles.section}>
                     <View style={styles.recurringRow}>
                         <View style={styles.recurringLabelContainer}>
-                            <Ionicons name="repeat-outline" size={20} color="#0D6855" />
+                            <Ionicons name="repeat-outline" size={20} color="#008A5E" />
                             <Text style={styles.recurringLabel}>Make this a monthly donation</Text>
                         </View>
                         <Switch
                             value={isRecurring}
                             onValueChange={setIsRecurring}
                             trackColor={{ false: '#E0E0E0', true: '#A8D5CB' }}
-                            thumbColor={isRecurring ? '#0D6855' : '#CCCCCC'}
+                            thumbColor={isRecurring ? '#008A5E' : '#CCCCCC'}
                         />
                     </View>
                 </View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
     },
     headerCard: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         borderRadius: 20,
         padding: 24,
         marginBottom: 24,
@@ -207,12 +207,12 @@ const styles = StyleSheet.create({
         borderTopColor: '#EEEEEE',
     },
     donateButton: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
         paddingVertical: 16,
         borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: '#0D6855',
+        shadowColor: '#008A5E',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.35,
         shadowRadius: 10,

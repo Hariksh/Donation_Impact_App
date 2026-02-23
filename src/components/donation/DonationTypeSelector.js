@@ -25,7 +25,7 @@ const DonationTypeSelector = ({ selectedType, setSelectedType }) => {
                             <Ionicons
                                 name={type.icon}
                                 size={16}
-                                color={isActive ? '#FFFFFF' : '#0D6855'}
+                                color={isActive ? '#FFFFFF' : '#008A5E'}
                                 style={styles.typeChipIcon}/>
                             <Text style={[styles.typeChipText, isActive && styles.typeChipTextActive]}>
                                 {type.label}
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
         borderColor: '#E0E0E0',
     },
     typeChipActive: {
-        backgroundColor: '#0D6855',
-        borderColor: '#0D6855',
+        backgroundColor: '#008A5E',
+        borderColor: '#008A5E',
     },
     typeChipIcon: {
         marginRight: 6,

@@ -22,7 +22,7 @@ const PaymentSelector = ({ selectedPayment, setSelectedPayment }) => {
                                 <Ionicons
                                     name={method.icon}
                                     size={20}
-                                    color={isActive ? '#FFFFFF' : '#0D6855'}
+                                    color={isActive ? '#FFFFFF' : '#008A5E'}
                                 />
                             </View>
                             <Text style={[styles.paymentOptionText, isActive && styles.paymentOptionTextActive]}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         borderColor: '#E8E8E8',
     },
     paymentOptionActive: {
-        borderColor: '#0D6855',
+        borderColor: '#008A5E',
         backgroundColor: '#F0F8F6',
     },
     paymentOptionLeft: {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         marginRight: 14,
     },
     paymentIconCircleActive: {
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
     },
     paymentOptionText: {
         fontSize: 15,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         color: '#444444',
     },
     paymentOptionTextActive: {
-        color: '#0D6855',
+        color: '#008A5E',
         fontWeight: '700',
     },
     radioOuter: {
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     radioOuterActive: {
-        borderColor: '#0D6855',
+        borderColor: '#008A5E',
     },
     radioInner: {
         width: 12,
         height: 12,
         borderRadius: 6,
-        backgroundColor: '#0D6855',
+        backgroundColor: '#008A5E',
     },
 });
 export default PaymentSelector;

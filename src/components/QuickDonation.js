@@ -7,7 +7,7 @@ const donationCategories = [
     { id: '1', title: 'Emergency Relief', icon: 'medical', color: '#E74C3C' },
     { id: '2', title: 'Medical Support', icon: 'heart', color: '#3498DB' },
     { id: '3', title: 'Education Fund', icon: 'book', color: '#F39C12' },
-    { id: '4', title: 'General Fund', icon: 'leaf', color: '#0D6855' },
+    { id: '4', title: 'General Fund', icon: 'leaf', color: '#008A5E' },
 ];
 
 const QuickDonation = () => {
