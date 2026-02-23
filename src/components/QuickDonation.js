@@ -1,13 +1,41 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const donationCategories = [
-    { id: '1', title: 'Emergency Relief', icon: 'medical', color: '#E74C3C' },
-    { id: '2', title: 'Medical Support', icon: 'heart', color: '#3498DB' },
-    { id: '3', title: 'Education Fund', icon: 'book', color: '#F39C12' },
-    { id: '4', title: 'General Fund', icon: 'leaf', color: '#008A5E' },
+    {
+        id: '1',
+        title: 'Zakat',
+        subtitle: 'OBLIGATORY',
+        icon: 'hand-heart-outline',
+        font: 'MaterialCommunityIcons',
+        color: '#008A5E'
+    },
+    {
+        id: '2',
+        title: 'Sadaqa',
+        subtitle: 'VOLUNTARY',
+        icon: 'heart-outline',
+        font: 'Ionicons',
+        color: '#3B82F6'
+    },
+    {
+        id: '3',
+        title: 'General',
+        subtitle: 'FOUNDATION FUND',
+        icon: 'wallet-outline',
+        font: 'Ionicons',
+        color: '#F5B041'
+    },
+    {
+        id: '4',
+        title: 'Interest',
+        subtitle: 'PURIFICATION',
+        icon: 'broom',
+        font: 'MaterialCommunityIcons',
+        color: '#F87171'
+    },
 ];
 
 const QuickDonation = () => {
@@ -19,20 +47,26 @@ const QuickDonation = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.sectionTitle}>Quick Donation</Text>
-
             <View style={styles.grid}>
                 {donationCategories.map((category) => (
                     <TouchableOpacity
                         key={category.id}
-                        style={styles.card}
+                        style={[
+                            styles.card,
+                            { borderTopColor: category.color }
+                        ]}
                         activeOpacity={0.7}
                         onPress={() => handlePress(category.title)}
                     >
-                        <View style={[styles.iconContainer, { backgroundColor: `${category.color}15` }]}>
-                            <Ionicons name={category.icon} size={28} color={category.color} />
+                        <View style={styles.iconContainer}>
+                            {category.font === 'Ionicons' ? (
+                                <Ionicons name={category.icon} size={32} color={category.color} />
+                            ) : (
+                                <MaterialCommunityIcons name={category.icon} size={32} color={category.color} />
+                            )}
                         </View>
                         <Text style={styles.cardTitle}>{category.title}</Text>
+                        <Text style={styles.cardSubtitle}>{category.subtitle}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -42,14 +76,7 @@ const QuickDonation = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 24,
-    },
-    sectionTitle: {
-        fontSize: 20,
-        fontWeight: '800',
-        color: '#222222',
-        letterSpacing: 0.2,
-        marginBottom: 16,
+        marginBottom: 10,
     },
     grid: {
         flexDirection: 'row',
@@ -60,7 +87,8 @@ const styles = StyleSheet.create({
         width: '48%',
         backgroundColor: '#FFFFFF',
         borderRadius: 16,
-        padding: 16,
+        paddingVertical: 24,
+        paddingHorizontal: 12,
         marginBottom: 16,
         alignItems: 'center',
         justifyContent: 'center',
@@ -69,21 +97,26 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.06,
         shadowRadius: 10,
         elevation: 4,
+        borderTopWidth: 5,
     },
     iconContainer: {
-        width: 56,
-        height: 56,
-        borderRadius: 28,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 12,
     },
     cardTitle: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#333333',
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#222222',
         textAlign: 'center',
-        lineHeight: 20,
+        marginBottom: 4,
+    },
+    cardSubtitle: {
+        fontSize: 10,
+        fontWeight: '600',
+        color: '#A0A0A0',
+        textAlign: 'center',
+        letterSpacing: 0.5,
     },
 });
 
